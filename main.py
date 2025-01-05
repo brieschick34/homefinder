@@ -14,16 +14,23 @@ from getTermLength import getTermLength
 
 from configurationClass import Configuration
 
+prospectRange = 1.25
+topProspectNumber = 0
+buggyProspectNumber = 0
+
 def getTotalCosts(Configuration):
-    prospectRange = 1.10
+    global topProspectNumber
+    global buggyProspectNumber
 
     prospectLine = Configuration.houseCost * prospectRange # Pull results where house cost no more then 1.5x listng value
     Configuration.printConfigToSTDOUT()
 
     if Configuration.additionalCostsOnHouse < 0:
-        Configuration.writeConfigToFile("BuggyProspects")
+        buggyProspectNumber += 1
+        Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
     elif Configuration.totalCost <= prospectLine:
-        Configuration.writeConfigToFile("TopProspects")
+        topProspectNumber += 1
+        Configuration.writeConfigToFile("TopProspects", topProspectNumber)
     else:
         print("NOT A PROSPECT. WILL NOT ADD TO FILE.")    
     return [ Configuration.number, Configuration.additionalCostsOnHouse ]
@@ -49,7 +56,7 @@ def iterateOverConfigurations():
                     if currentCost[1] <= minimizedCost:
                         minimizedCost = currentCost[1]
                         print("New Minimized Cost for House at: " + str(houseCost) + " is " + str(minimizedCost))
-                    time.sleep(.5)
+                    # time.sleep(.5)
         f.write("Top Config for House Costing: " + str(houseCost) + " is #" + str(currentCost[0]) + " with additional costs of " + str(currentCost[1]) + "\n")
     f.close()
 

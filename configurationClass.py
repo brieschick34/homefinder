@@ -4,6 +4,7 @@ closingCostPrecent = .05
 initalTermLength = 360
 interestRate =.0699
 pmiPrecent = .0046
+generateReports = False
 
 from getAdditionalMonthlyExpenses import getHomeInsuranceMonthlyCost, getPropertyTaxMonthlyCost, getClosingCost
 from getBuyDownRate import getBuyDownRateDrop, getBuyDownRate
@@ -24,7 +25,9 @@ class Configuration:
     self.buyDownRate = getBuyDownRate(self.principal, buyDownAmount, interestRate)
     self.monthlyRate = self.buyDownRate / 12
     self.monthlyMortgage = getMortgageAmount(self.principal, self.monthlyRate, initalTermLength)
-    self.newTermLength = getTermLength(self.principal, extraPayment, self.monthlyMortgage, self.monthlyRate)
+    self.termLengthResults =  getTermLength(self.principal, extraPayment, self.monthlyMortgage, self.monthlyRate, generateReports)
+    self.newTermLength = self.termLengthResults[0]
+    self.totalInterest = self.termLengthResults[1]
     self.pmiTotalCost = getPMITotalCost(self.principal, pmiPrecent, houseCost, self.monthlyMortgage, extraPayment, self.monthlyRate)
     self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
     self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal, insuranceRate) 
@@ -32,7 +35,7 @@ class Configuration:
     self.closingCosts = getClosingCost(self.principal, closingCostPrecent)
     self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense + self.propertyTaxExpense
     self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts
-    self.totalCost = (self.monthlyExpense * self.newTermLength ) + self.upFrontCost
+    self.totalCost = (self.principal + self.totalInterest ) + self.upFrontCost
     self.additionalCostsOnHouse = self.totalCost - houseCost
     self.additionalCostsOnHousePercent = ( self.additionalCostsOnHouse / self.totalCost ) * 100 
 
@@ -71,16 +74,16 @@ class Configuration:
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
     print("Amount Paid on Top of House Cost (Precent): " + str(self.additionalCostsOnHousePercent))
 
-  def writeConfigToFile(self, filename):
+  def writeConfigToFile(self, filename, uniqueNumber):
     f = open("%s.txt" % filename, "a")
     f.write("Loan Configuration #:" + str(self.number) + "\n")
-    # f.write("{filename} Configuration #:" + str(self.uniqueNumber) + "\n")
+    f.write("%s Configuration #:" % filename + str(uniqueNumber) + "\n")
     f.write("  -> Cost of House: " + str(self.houseCost) + "\n")
-    f.write("  -> Down Payment Precent: " + str(self.downPaymentPrecent) + "\n")
+    f.write("  -> Down Payment Precent: " + str(self.downPaymentPrecent*100) + "\n")
     f.write("  -> Extra Monthly Payment: " + str(self.extraPayment) + "\n")
     f.write("  -> Buy Down Amount: " + str(self.buyDownAmount) + "\n")
-    f.write("  -> Loan Interest Rate: " + str(interestRate) + "\n")
-    f.write("  -> PMI Precent: " + str(pmiPrecent) + "\n")
+    f.write("  -> Loan Interest Rate: " + str(interestRate*100) + "\n")
+    f.write("  -> PMI Precent: " + str(pmiPrecent*100) + "\n")
     f.write("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength) + "\n")
     f.write("  -> Property Tax Precent: " + str(propertyTaxRate*100) + "\n")
     f.write("  -> Closing Cost Precent: " + str(closingCostPrecent*100) + "\n")
@@ -89,7 +92,7 @@ class Configuration:
     f.write("Calculated Numbers: " + "\n")
     f.write("  -> Down Payment:: " + str(self.downPayment) + "\n")
     f.write("  -> Loan Principal: " + str(self.principal) + "\n")
-    f.write("  -> Buy Down Rate: " + str(self.buyDownRate) + "\n")
+    f.write("  -> Buy Down Rate: " + str(self.buyDownRate*100) + "\n")
     f.write("  -> New Term Length: " + str(self.newTermLength) + "\n")
     f.write("  -> Total Cost of PMI till 20 Precent Equity: " + str(self.pmiTotalCost) + "\n")
 
