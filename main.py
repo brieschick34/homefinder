@@ -42,7 +42,8 @@ def iterateOverConfigurations():
                 extraPayment = (.0005*i)*houseCost
                 for i in range(1, 10):
                     totalConfigurations += 1
-                    buyDownAmount = (.1*i)*houseCost
+                    buyDownAmount = (.01*i)*houseCost
+                    # if buyDownAmount <= houseCost * .1 # Only run configs for buy down amounts 
                     currentConfig = Configuration(totalConfigurations, houseCost, downPaymentPrecent, extraPayment, buyDownAmount)
                     currentCost = getTotalCosts(currentConfig)
                     if currentCost[1] <= minimizedCost:

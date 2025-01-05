@@ -1,5 +1,0 @@
-Loan Configuration #:41
-  -> Cost of House: 100000
-  -> Down Payment Precent: 0
-  -> Extra Monthly Payment: 250.0
-  -> Buy Down Amount: 50000.0
