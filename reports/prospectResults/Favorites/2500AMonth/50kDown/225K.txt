@@ -1,0 +1,32 @@
+Loan Configuration #:241
+TopProspects Configuration #:1
+  -> Cost of House: 225000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 1012.5000000000001
+  -> Buy Down Amount: 15750.000000000002
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 22500.0
+  -> Loan Principal: 202500.0
+  -> Buy Down Rate: 5.045555555555556
+  -> New Term Length: 124
+  -> Total Cost of PMI till 20 Precent Equity: 1397.16
+Monthly Expenses: 2495.02
+  -> Mortgage: 1092.71
+  -> PMI: 77.62
+  -> Insurance: 168.75
+  -> Property Tax: 143.44
+  -> Extra Payment: 1012.5000000000001
+Up Front Costs: 48375.0
+  -> Down Payment: 22500.0
+  -> Buy Down Amount: 15750.000000000002
+  -> Estimated Additional Closing Costs ( 5.0% ): 10125.0
+Total Cost: 308407.21
+Amount Paid on Top of House Cost: 83407.2090422124
+Amount Paid on Top of House Cost (Precent): 37.06987068542773
+--------------------------------------------------------------------------------------------------------

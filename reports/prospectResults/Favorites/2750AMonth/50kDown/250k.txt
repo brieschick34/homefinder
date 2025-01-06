@@ -1,0 +1,288 @@
+Loan Configuration #:143
+TopProspects Configuration #:1
+  -> Cost of House: 250000
+  -> Down Payment Precent: 5.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 20000.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 12500.0
+  -> Loan Principal: 237500.0
+  -> Buy Down Rate: 4.884736842105264
+  -> New Term Length: 149
+  -> Total Cost of PMI till 20 Precent Equity: 2822.2400000000002
+Monthly Expenses: 2590.46
+  -> Mortgage: 1258.27
+  -> PMI: 91.04
+  -> Insurance: 197.92
+  -> Property Tax: 168.23
+  -> Extra Payment: 875.0
+Up Front Costs: 44375.0
+  -> Down Payment: 12500.0
+  -> Buy Down Amount: 20000.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11875.0
+Total Cost: 361371.29
+Amount Paid on Top of House Cost: 111371.29147670779
+Amount Paid on Top of House Cost (Precent): 44.54851659068311
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:144
+TopProspects Configuration #:2
+  -> Cost of House: 250000
+  -> Down Payment Precent: 5.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 22500.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 12500.0
+  -> Loan Principal: 237500.0
+  -> Buy Down Rate: 4.6215789473684215
+  -> New Term Length: 150
+  -> Total Cost of PMI till 20 Precent Equity: 2822.2400000000002
+Monthly Expenses: 2552.79
+  -> Mortgage: 1220.6
+  -> PMI: 91.04
+  -> Insurance: 197.92
+  -> Property Tax: 168.23
+  -> Extra Payment: 875.0
+Up Front Costs: 46875.0
+  -> Down Payment: 12500.0
+  -> Buy Down Amount: 22500.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11875.0
+Total Cost: 359560.9
+Amount Paid on Top of House Cost: 109560.9033240169
+Amount Paid on Top of House Cost (Precent): 43.824361329606766
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:152
+TopProspects Configuration #:3
+  -> Cost of House: 250000
+  -> Down Payment Precent: 5.0
+  -> Extra Monthly Payment: 1000.0
+  -> Buy Down Amount: 20000.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 12500.0
+  -> Loan Principal: 237500.0
+  -> Buy Down Rate: 4.884736842105264
+  -> New Term Length: 138
+  -> Total Cost of PMI till 20 Precent Equity: 2549.1200000000003
+Monthly Expenses: 2715.46
+  -> Mortgage: 1258.27
+  -> PMI: 91.04
+  -> Insurance: 197.92
+  -> Property Tax: 168.23
+  -> Extra Payment: 1000.0
+Up Front Costs: 44375.0
+  -> Down Payment: 12500.0
+  -> Buy Down Amount: 20000.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11875.0
+Total Cost: 355011.68
+Amount Paid on Top of House Cost: 105011.67589556129
+Amount Paid on Top of House Cost (Precent): 42.0046703582245
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:153
+TopProspects Configuration #:4
+  -> Cost of House: 250000
+  -> Down Payment Precent: 5.0
+  -> Extra Monthly Payment: 1000.0
+  -> Buy Down Amount: 22500.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 12500.0
+  -> Loan Principal: 237500.0
+  -> Buy Down Rate: 4.6215789473684215
+  -> New Term Length: 139
+  -> Total Cost of PMI till 20 Precent Equity: 2549.1200000000003
+Monthly Expenses: 2677.79
+  -> Mortgage: 1220.6
+  -> PMI: 91.04
+  -> Insurance: 197.92
+  -> Property Tax: 168.23
+  -> Extra Payment: 1000.0
+Up Front Costs: 46875.0
+  -> Down Payment: 12500.0
+  -> Buy Down Amount: 22500.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11875.0
+Total Cost: 353557.75
+Amount Paid on Top of House Cost: 103557.75200622878
+Amount Paid on Top of House Cost (Precent): 41.42310080249152
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:218
+TopProspects Configuration #:5
+  -> Cost of House: 250000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 5000.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 25000.0
+  -> Loan Principal: 225000.0
+  -> Buy Down Rate: 6.434444444444446
+  -> New Term Length: 141
+  -> Total Cost of PMI till 20 Precent Equity: 1897.5
+Monthly Expenses: 2720.6
+  -> Mortgage: 1412.47
+  -> PMI: 86.25
+  -> Insurance: 187.5
+  -> Property Tax: 159.38
+  -> Extra Payment: 875.0
+Up Front Costs: 41250.0
+  -> Down Payment: 25000.0
+  -> Buy Down Amount: 5000.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11250.0
+Total Cost: 361868.48
+Amount Paid on Top of House Cost: 111868.48349439085
+Amount Paid on Top of House Cost (Precent): 44.747393397756326
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:219
+TopProspects Configuration #:6
+  -> Cost of House: 250000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 7500.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 25000.0
+  -> Loan Principal: 225000.0
+  -> Buy Down Rate: 6.156666666666667
+  -> New Term Length: 141
+  -> Total Cost of PMI till 20 Precent Equity: 1897.5
+Monthly Expenses: 2679.86
+  -> Mortgage: 1371.73
+  -> PMI: 86.25
+  -> Insurance: 187.5
+  -> Property Tax: 159.38
+  -> Extra Payment: 875.0
+Up Front Costs: 43750.0
+  -> Down Payment: 25000.0
+  -> Buy Down Amount: 7500.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11250.0
+Total Cost: 360355.41
+Amount Paid on Top of House Cost: 110355.4051252664
+Amount Paid on Top of House Cost (Precent): 44.14216205010657
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:220
+TopProspects Configuration #:7
+  -> Cost of House: 250000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 10000.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 25000.0
+  -> Loan Principal: 225000.0
+  -> Buy Down Rate: 5.8788888888888895
+  -> New Term Length: 142
+  -> Total Cost of PMI till 20 Precent Equity: 1897.5
+Monthly Expenses: 2639.65
+  -> Mortgage: 1331.52
+  -> PMI: 86.25
+  -> Insurance: 187.5
+  -> Property Tax: 159.38
+  -> Extra Payment: 875.0
+Up Front Costs: 46250.0
+  -> Down Payment: 25000.0
+  -> Buy Down Amount: 10000.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11250.0
+Total Cost: 358809.46
+Amount Paid on Top of House Cost: 108809.45621572691
+Amount Paid on Top of House Cost (Precent): 43.52378248629076
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:221
+TopProspects Configuration #:8
+  -> Cost of House: 250000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 875.0
+  -> Buy Down Amount: 12500.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 25000.0
+  -> Loan Principal: 225000.0
+  -> Buy Down Rate: 5.601111111111112
+  -> New Term Length: 143
+  -> Total Cost of PMI till 20 Precent Equity: 1897.5
+Monthly Expenses: 2599.97
+  -> Mortgage: 1291.84
+  -> PMI: 86.25
+  -> Insurance: 187.5
+  -> Property Tax: 159.38
+  -> Extra Payment: 875.0
+Up Front Costs: 48750.0
+  -> Down Payment: 25000.0
+  -> Buy Down Amount: 12500.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11250.0
+Total Cost: 357232.11
+Amount Paid on Top of House Cost: 107232.11476265593
+Amount Paid on Top of House Cost (Precent): 42.89284590506237
+--------------------------------------------------------------------------------------------------------
+Loan Configuration #:230
+TopProspects Configuration #:9
+  -> Cost of House: 250000
+  -> Down Payment Precent: 10.0
+  -> Extra Monthly Payment: 1000.0
+  -> Buy Down Amount: 12500.0
+  -> Loan Interest Rate: 6.99
+  -> PMI Precent: 0.45999999999999996
+  -> Loan Term Length (Before Extra Payments): 360
+  -> Property Tax Precent: 0.8500000000000001
+  -> Closing Cost Precent: 5.0
+  -> Home Insurance Precent: 1.0
+Calculated Numbers: 
+  -> Down Payment:: 25000.0
+  -> Loan Principal: 225000.0
+  -> Buy Down Rate: 5.601111111111112
+  -> New Term Length: 132
+  -> Total Cost of PMI till 20 Precent Equity: 1725.0
+Monthly Expenses: 2724.97
+  -> Mortgage: 1291.84
+  -> PMI: 86.25
+  -> Insurance: 187.5
+  -> Property Tax: 159.38
+  -> Extra Payment: 1000.0
+Up Front Costs: 48750.0
+  -> Down Payment: 25000.0
+  -> Buy Down Amount: 12500.0
+  -> Estimated Additional Closing Costs ( 5.0% ): 11250.0
+Total Cost: 350407.86
+Amount Paid on Top of House Cost: 100407.85894303612
+Amount Paid on Top of House Cost (Precent): 40.16314357721444
+--------------------------------------------------------------------------------------------------------

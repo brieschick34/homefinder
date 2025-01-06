@@ -33,11 +33,11 @@ class Configuration:
     self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal, insuranceRate) 
     self.propertyTaxExpense = getPropertyTaxMonthlyCost(self.principal, propertyTaxRate)
     self.closingCosts = getClosingCost(self.principal, closingCostPrecent)
-    self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense + self.propertyTaxExpense
+    self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense + self.propertyTaxExpense + extraPayment
     self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts
-    self.totalCost = (self.principal + self.totalInterest ) + self.upFrontCost
+    self.totalCost = self.principal + self.totalInterest  + self.upFrontCost
     self.additionalCostsOnHouse = self.totalCost - houseCost
-    self.additionalCostsOnHousePercent = ( self.additionalCostsOnHouse / self.totalCost ) * 100 
+    self.additionalCostsOnHousePercent = ((self.totalCost / self.houseCost ) - 1 )* 100 
 
   def printConfigToSTDOUT(self):
     print("Loan Configuration #:" + str(self.number))
@@ -64,6 +64,7 @@ class Configuration:
     print("  -> PMI: " + str(self.pmiMonthlyCost))
     print("  -> Insurance: " + str(self.insuranceExpense))
     print("  -> Property Tax: " + str(self.propertyTaxExpense))
+    print("  -> Extra Payment: " + str(self.extraPayment))
 
     print("Up Front Costs: " + str(round(self.upFrontCost, 2)))
     print("  -> Down Payment: " + str(self.downPayment))
@@ -101,6 +102,7 @@ class Configuration:
     f.write("  -> PMI: " + str(self.pmiMonthlyCost) + "\n")
     f.write("  -> Insurance: " + str(self.insuranceExpense) + "\n")
     f.write("  -> Property Tax: " + str(self.propertyTaxExpense) + "\n")
+    f.write("  -> Extra Payment: " + str(self.extraPayment) + "\n")
 
     f.write("Up Front Costs: " + str(round(self.upFrontCost, 2)) + "\n")
     f.write("  -> Down Payment: " + str(self.downPayment) + "\n")
