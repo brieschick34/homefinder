@@ -1,7 +1,0 @@
-Top Config for House Costing: 100000 is #729 with additional costs of 20185.93893773062
-Top Config for House Costing: 125000 is #1458 with additional costs of 25232.390116244525
-Top Config for House Costing: 150000 is #2187 with additional costs of 30278.84129475843
-Top Config for House Costing: 175000 is #2916 with additional costs of 35325.292473272304
-Top Config for House Costing: 200000 is #3645 with additional costs of 40371.74365178621
-Top Config for House Costing: 225000 is #4374 with additional costs of 45418.19483030011
-Top Config for House Costing: 250000 is #5103 with additional costs of 50464.646008814045
