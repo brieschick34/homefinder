@@ -17,9 +17,9 @@ from graphData import createRowInCSV, createGraphFromCSV, createCSVFile
 topProspectNumber = 0
 buggyProspectNumber = 0
 maxUpfrontCosts = [ 30000, 35000, 40000, 45000, 50000 ]
-prospectRanges = [ 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75 ]
+prospectRanges = [ 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75 ]
 maxMonthlyExpense = [ 2000, 2250, 2500, 2750 ]
-houseCostRanges = [ 180000, 200000, 220000, 240000, 260000, 280000, 300000, 320000, 340000 ]
+houseCostRanges = [ 140000, 160000, 180000, 200000, 220000, 240000, 260000, 280000, 300000, 320000, 340000 ]
 downPaymentPrecentRanges = [ 0, .05, .1, .15, .2, .25, .3, .35 ]
 
 def getTotalCosts(Configuration):
