@@ -14,16 +14,13 @@ from getTermLength import getTermLength
 from getPMI import getMonthlyPMI, getPMITotalCost
 
 class Configuration:
-  def __init__(self, number, houseCost, downPaymentPrecent, extraPayment, buyDownAmount, prospectRange, maxMonthlyExpense, maxUpfrontCost):
+  def __init__(self, number, houseCost, downPaymentPrecent, extraPayment, buyDownAmount):
     self.number = number
     # self.uniqueNumber = uniqueNumber
     self.houseCost = houseCost
     self.downPaymentPrecent = downPaymentPrecent
     self.downPayment = downPaymentPrecent * houseCost 
     self.principal = houseCost - self.downPayment
-    self.prospectRange = prospectRange
-    self.maxMonthlyExpense = maxMonthlyExpense
-    self.maxUpfrontCost = maxUpfrontCost
     self.extraPayment = extraPayment
     self.buyDownAmount = buyDownAmount
     self.buyDownRate = getBuyDownRate(self.principal, buyDownAmount, interestRate)
@@ -79,10 +76,10 @@ class Configuration:
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
     print("Amount Paid on Top of House Cost (Precent): " + str(self.additionalCostsOnHousePercent))
 
-  def writeConfigToFile(self, filename, uniqueNumber):
-    path = "reports/automated/%sKHouse/%sKMaxClosingCost/%sMaxMonthlyCost/" % ( int(self.houseCost/1000), int(self.maxUpfrontCost/1000), int(self.maxMonthlyExpense))
+  def writeConfigToFile(self, filename, uniqueNumber, prospectRange, maxMonthlyExpense, maxUpfrontCost):
+    path = "reports/automated/%sKHouse/%sKMaxClosingCost/%sMaxMonthlyCost/" % ( int(self.houseCost/1000), int(maxUpfrontCost/1000), int(maxMonthlyExpense))
     Path(path).mkdir(parents=True, exist_ok=True)
-    f = open("%s/%sOfTotalCost.txt" % ( path, self.prospectRange) , "a")
+    f = open("%s/%sOfTotalCost.txt" % ( path, prospectRange) , "a")
     f.write("Loan Configuration #:" + str(self.number) + "\n")
     f.write("%s Configuration #:" % filename + str(uniqueNumber) + "\n")
     f.write("  -> Cost of House: " + str(self.houseCost) + "\n")
@@ -121,3 +118,4 @@ class Configuration:
 
     f.write("--------------------------------------------------------------------------------------------------------\n")
     f.close()
+

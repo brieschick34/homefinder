@@ -1,11 +1,11 @@
-# import time
-from getAdditionalMonthlyExpenses import getHomeInsuranceMonthlyCost, getPropertyTaxMonthlyCost, getClosingCost
-from getBuyDownRate import getBuyDownRateDrop, getBuyDownRate
-from getMortgageAmount import getMortgageAmount
-from getPMI import getMonthlyPMI, getPMITotalCost
-from getTermLength import getTermLength
+import time
+# from getAdditionalMonthlyExpenses import getHomeInsuranceMonthlyCost, getPropertyTaxMonthlyCost, getClosingCost
+# from getBuyDownRate import getBuyDownRateDrop, getBuyDownRate
+# from getMortgageAmount import getMortgageAmount
+# from getPMI import getMonthlyPMI, getPMITotalCost
+# from getTermLength import getTermLength
 from configurationClass import Configuration
-
+from graphData import createRowInCSV, createGraphFromCSV, createCSVFile
 # houseCost = float(input("Enter House Cost:"))
 # downPaymentPrecent = float(input("Enter Down Payment Precent:"))
 # extraPayment = float(input("Enter Extra Payment Amount:"))
@@ -26,22 +26,22 @@ def getTotalCosts(Configuration):
     global topProspectNumber
     global buggyProspectNumber
 
-    prospectLine = Configuration.houseCost * Configuration.prospectRange # Pull results where house cost no more then 1.5x listng value
-    # print("Comparing Total Cost: " + str(Configuration.totalCost) + " with prospect Line: " + str(prospectLine))
-    # print("Comparing Upfront Cost: " + str(Configuration.upFrontCost) + " with max Up front Cost: " + str(maxUpfrontCost))
-
-    if Configuration.additionalCostsOnHouse < 0:
-        buggyProspectNumber += 1
-        Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
-    elif Configuration.upFrontCost <= Configuration.maxUpfrontCost:
-        print("Configuration does not meet Up Front Cost Requirements.")
-        if Configuration.totalCost <= prospectLine:
-            print("Configuration does not meet Total Cost Requirements.")
-            if Configuration.monthlyExpense <= Configuration.maxMonthlyExpense:
-                print("Configuration does not meet Monthly Requirements.")
-                topProspectNumber += 1
-                Configuration.printConfigToSTDOUT()
-                Configuration.writeConfigToFile("TopProspects", topProspectNumber)
+    for maxMonthly in maxMonthlyExpense:
+        for prospectRange in prospectRanges:
+            for maxUpfrontCost in maxUpfrontCosts:   
+                prospectLine = Configuration.houseCost * prospectRange # Pull results where house cost no more then 1.5x listng value
+                if Configuration.additionalCostsOnHouse < 0:
+                    buggyProspectNumber += 1
+                    Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
+                elif Configuration.upFrontCost <= maxUpfrontCost:
+                    print("Configuration does not meet Up Front Cost Requirements.")
+                    if Configuration.totalCost <= prospectLine:
+                        print("Configuration does not meet Total Cost Requirements.")
+                        if Configuration.monthlyExpense <= maxMonthly:
+                            print("Configuration does not meet Monthly Requirements.")
+                            topProspectNumber += 1
+                            Configuration.printConfigToSTDOUT()
+                            Configuration.writeConfigToFile("TopProspects", topProspectNumber, prospectRange, maxMonthly, maxUpfrontCost)
     else:
         print("NOT A PROSPECT. WILL NOT ADD TO FILE.")    
     return [ Configuration.number, Configuration.additionalCostsOnHouse ]
@@ -53,24 +53,28 @@ def iterateOverConfigurations():
     f = open("VeryTopProspects.txt", "a")
     for houseCost in houseCostRanges:
         minimizedCost = 1.5 * houseCost
+        createCSVFile(houseCost)
         for downPaymentPrecent in downPaymentPrecentRanges:
             for  i in range(1, 10):
                 extraPayment = (.0005*i)*houseCost
                 for i in range(1, 10):
-                    for maxMonthly in maxMonthlyExpense:
-                        for prospectRange in prospectRanges:
-                            for maxUpfrontCost in maxUpfrontCosts:
-                                totalConfigurations += 1
-                                buyDownAmount = (.01*i)*houseCost
-                                # if buyDownAmount <= houseCost * .1 # Only run configs for buy down amounts 
-                                currentConfig = Configuration(totalConfigurations, houseCost, downPaymentPrecent, extraPayment, buyDownAmount, prospectRange, maxMonthly, maxUpfrontCost)
-                                currentCost = getTotalCosts(currentConfig)
-                                if currentCost[1] <= minimizedCost:
-                                    minimizedCost = currentCost[1]
-                                    # print("New Minimized Cost for House at: " + str(houseCost) + " is " + str(minimizedCost))
-                                # time.sleep(.5)
+                    totalConfigurations += 1
+                    buyDownAmount = (.01*i)*houseCost
+                    currentConfig = Configuration(totalConfigurations, houseCost, downPaymentPrecent, extraPayment, buyDownAmount)
+                    createRowInCSV(currentConfig)
+                    currentCost = getTotalCosts(currentConfig)
+                    if currentCost[1] <= minimizedCost:
+                        minimizedCost = currentCost[1]
+                        # print("New Minimized Cost for House at: " + str(houseCost) + " is " + str(minimizedCost))
+                        # time.sleep(.5)
         f.write("Top Config for House Costing: " + str(houseCost) + " is #" + str(currentCost[0]) + " with additional costs of " + str(currentCost[1]) + "\n")
     f.close()
 
+def graphConfigurations():
+    for hostCost in houseCostRanges:
+        createGraphFromCSV(hostCost)
+        time.sleep(2.5)
+
 # START
 iterateOverConfigurations()
+# graphConfigurations()
