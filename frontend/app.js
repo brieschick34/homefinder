@@ -8,14 +8,13 @@ var logger = require('morgan');
 Router = require('./routes/index');
 var aboutRouter = require('./routes/about');
 var contactRouter = require('./routes/contact');
-var tipsRouter = require('./routes/tips');
-var recipesRouter = require('./routes/recipes');
-var adviceRouter = require('./routes/advice');
+var testsRouter = require('./routes/tests');
+var amortization = require('./routes/amortization');
+var optimizeRouter = require('./routes/optimize');
 var indexRouter = require('./routes/index');
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.static('public/stylesheets/layout.css'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,8 +28,10 @@ app.use(cookieParser());
 // tell the app to use these routes
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
-app.use('/contact', contactRouter);app.use('/tips', tipsRouter);
-app.use('/recipes', recipesRouter);app.use('/advice', adviceRouter);
+app.use('/contact', contactRouter);
+app.use('/tests', testsRouter);
+app.use('/amortization', amortization);
+app.use('/optimize', optimizeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
