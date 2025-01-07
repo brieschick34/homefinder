@@ -2,6 +2,25 @@ extends layout
 block mainbody
   #mainbody
     h3 Home Loan Amortization Report Tool
+    section.input
+      h2 Input 
+      p Fill out the follow fields to start using the Home Loan Amortization Report Tool!
+      table
+        tr
+          th Loan Principal  
+          th Extra Payment
+          th Mortgage Amount
+          th Interest Rate
+        tr
+          th
+            input(type="text", name="principal", value="")
+          th 
+            input(type="text", name="extraPayment", value="")
+          th 
+            input(type="text", name="mortgageAmount", value="")
+          th
+            input(type="text", name="interestRate", value="")
+      a(class='button' href='') Run!
     section.forsaleitems
       table
         tr
