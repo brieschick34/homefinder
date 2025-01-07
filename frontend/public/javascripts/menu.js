@@ -14,4 +14,4 @@ function menuToggle(state) {
       ele.style.transition='visibility 0.3s, opacity 0.3s'; 
       break;
   }
-}  
+}

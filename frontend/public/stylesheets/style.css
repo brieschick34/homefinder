@@ -31,7 +31,7 @@ h4 {                                               /* Section item title */
   font-weight: normal;
   padding: 0.5rem;
 }
-p {                                                 /* Section item body */
+p {                                                 /* Paragraph styling */
   padding: 0.5rem;
 }
 a:link, a:visited {            /* anchor links, and visited anchor links */
@@ -47,18 +47,18 @@ a:active {                                /* when anchor link is clicked */
 /* component styles */
 #container {
   display: grid;
-  height: 100vh;
+  height: 100%;
   grid-template-columns:
     [left] 10rem auto 10rem [right];
   grid-template-rows:
-    [top] 5rem auto 5rem [bottom];     /* header height fits its content */
+    [top] 5rem auto 5rem [bottom];
   grid-template-areas:
     "head head head"
     "panleft mainbody panright"
     "foot foot foot";
 }
 #header {
-  grid-area: head;                    /* corresponds to name in template */
+  grid-area: head;                  /* corresponds to grid-template-area */
   background: rgb(0, 0, 0, 0.2);                            /* 20% black */
   display: flex;
   flex-direction: row;
@@ -66,20 +66,20 @@ a:active {                                /* when anchor link is clicked */
   align-items: baseline;  /* site name and nav item text aligns baseline */
   padding: 1.0rem;
 }
-#panel {                                       /* for element id="panel" */
+#panel {                                        /* if element id="panel" */
   display: flex;                     /* this element is a flexbox parent */
   flex-direction: column;          /* its child elements flex vertically */
   padding: 0.5rem;
   background: rgb(0, 0, 0, 0.1);                            /* 10% black */
 }
-#panel.left {                 /* for element id="panel" and class="left" */
+#panel.left {                  /* if element id="panel" and class="left" */
   grid-area: panleft;                  /* this element fills a grid area */
 }
-#panel.right {
-  grid-area: panright;
+#panel.right {                /* if element id="panel" and class="right" */
+  grid-area: panright;                 /* this element fills a grid area */
 }
-#footer {
-  grid-area: foot;
+#footer {                                      /* if element id="footer" */
+  grid-area: foot;                     /* this element fills a grid area */
   display: flex;                     /* this element is a flexbox parent */
   flex-direction: column;          /* its child elements flex vertically */
   justify-content: center;           /* horizontal center footer content */
@@ -87,25 +87,25 @@ a:active {                                /* when anchor link is clicked */
   padding: 0.5rem;
   background: rgb(0, 0, 0, 0.2);
 }
-#mainbody {                                 /* for element id="mainbody" */
+#mainbody {                                  /* if element id="mainbody" */
   display: flex;                     /* this element is a flexbox parent */
   flex-direction: column;          /* its child elements flex vertically */
   grid-area: mainbody;
   justify-self: center;          /* fixed-width mainbody always centered */
   width: 100%;
-  min-width: 22.5rem;            /* mainbody width can't go < 22.5rem */
+  min-width: 22.5rem;               /* mainbody width can't go < 22.5rem */
 }
 div#panel,
 div#mainbody {                               /* extra space under header */
   padding-top: 0.5rem;
 }
-#partners, #sections {     /* for element id="partners" or id="sections" */
+#partners, #sections {      /* if element id="partners" or id="sections" */
   display: flex;                     /* this element is a flexbox parent */
   flex-direction: row;           /* its child elements flex horizontally */
   flex-wrap: wrap;           /* its child elements can wrap to next line */
   align-content: flex-start;       /* child elements start in upper left */
 }
-#partners.wide {           /* for element id="partners" and class="wide" */
+#partners.wide {            /* if element id="partners" and class="wide" */
   display: none;              /* by default, do not display this element */
 }
 #menu {
@@ -125,11 +125,8 @@ div#mainbody {                               /* extra space under header */
 #menuitems h3 {
   border-top: 0.15rem solid rgb(0, 0, 0, 0.1);  /* light horizontal rule */
 }
-#menuitems .sectrule {
+#menuitems .menusec {
   border-color: rgb(0, 0, 0, 0.25);            /* darker horizontal rule */
-}
-#menuitems .menuhead {
-  border-top: none;
 }
 #menuitems h3:hover {
   background-color: rgb(0, 0, 0, 0.1);     /* gray of rollover menuitems */
@@ -179,10 +176,10 @@ div#mainbody {                               /* extra space under header */
   font-weight: normal;
   font-size: 1.1rem;
 }
-.date, .ingredient {                                         /* e.g., January 1, 2021 */
+.date {                                         /* e.g., January 1, 2021 */
   font-style: italic;
   font-size: 0.9rem;
-  padding: 0 0 0.01rem 0.5rem;
+  padding: 0 0 0 0.5rem;
   color: rgb(0, 0, 0, 0.5);
 }
 .navitem {                                             /* About, Contact */

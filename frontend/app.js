@@ -11,12 +11,10 @@ var contactRouter = require('./routes/contact');
 var tipsRouter = require('./routes/tips');
 var recipesRouter = require('./routes/recipes');
 var adviceRouter = require('./routes/advice');
-
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static('public/stylesheets/layout.css'));
 
 // view engine setup
@@ -27,14 +25,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 // tell the app to use these routes
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/contact', contactRouter);app.use('/tips', tipsRouter);
 app.use('/recipes', recipesRouter);app.use('/advice', adviceRouter);
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
