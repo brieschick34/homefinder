@@ -15,3 +15,37 @@ function menuToggle(state) {
       break;
   }
 }
+
+function generateAmortizationReport() {
+  console.log("Setting Parameters");
+  const principal = document
+    .querySelector('#principal').value;
+
+  const extraPayment = document
+    .querySelector('#extraPayment').value;
+      
+  const mortgageAmount = document
+    .querySelector('#mortgageAmount').value;
+
+  const interestRate = document
+    .querySelector('#interestRate').value;
+      
+  console.log("Sending POST Request");
+  fetch('/generateAmortizationReport', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer abcdxyz',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      principal,
+      extraPayment,
+      mortgageAmount,
+      interestRate
+    }),
+  })
+  // .then((res) => {
+  //   return res.json();
+  // })
+  // .then((data) => console.log(data));
+}

@@ -22,7 +22,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // tell the app to use these routes
@@ -33,11 +33,6 @@ app.use('/tests', testsRouter);
 app.use('/amortization', amortization);
 app.use('/optimize', optimizeRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -47,6 +42,18 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.post('/generateAmortizationReport', (req, res) => {
+  // Process the POST data here
+  console.log(req.body); 
+  // console.log("Principal: " + req.body.principal)
+  res.status(201).send('Data received successfully');
+});
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
 module.exports = app;
