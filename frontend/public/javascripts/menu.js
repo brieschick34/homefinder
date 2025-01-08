@@ -16,7 +16,7 @@ function menuToggle(state) {
   }
 }
 
-function generateAmortizationReport() {
+async function generateAmortizationReport() {
   console.log("Setting Parameters");
   const principalVal = document
     .querySelector('#principal').value;
@@ -34,6 +34,7 @@ function generateAmortizationReport() {
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Access-Control-Allow-Origin", "localhost");
   
   const raw = JSON.stringify({
     "principal": principalVal,
@@ -44,15 +45,42 @@ function generateAmortizationReport() {
   
   const requestOptions = {
     method: "POST",
+    mode: "cors",
     headers: myHeaders,
     body: raw,
     redirect: "follow"
   };
   
-  fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+  try {
+    const response = await fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions);
+    const result = await response.text();
+    console.log(result)
+  } catch (error) {
+    console.error(error);
+  };
+
+  // OLD
+  // const myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/json");
+  
+  // const raw = JSON.stringify({
+  //   "principal": principalVal,
+  //   "extraPayment": extraPaymentVal,
+  //   "mortgageAmount": mortgageAmountVal,
+  //   "interestRate": interestRateVal
+  // });
+  
+  // const requestOptions = {
+  //   method: "POST",
+  //   headers: myHeaders,
+  //   body: raw,
+  //   redirect: "follow"
+  // };
+  
+  // fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions)
+  //   .then((response) => response.text())
+  //   .then((result) => console.log(result))
+  //   .catch((error) => console.error(error));
 
   // fetch('http://localhost:5000/api/v1/generateAmortizationReport', {
   //   method: 'POST',
