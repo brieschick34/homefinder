@@ -30,23 +30,19 @@ function generateAmortizationReport() {
   const interestRateVal = document
     .querySelector('#interestRate').value;
       
-  console.log("Sending POST Request");
+  console.log("Sending GET Request");
 
-  const response = fetch('/generateAmortizationReport', {
-    method: 'POST',
+  const path = `/generateAmortizationReport?principal=${principalVal}&extraPayment=${extraPaymentVal}&mortgageAmount=${mortgageAmountVal}&interestRate=${interestRateVal}`
+
+  const response = fetch(path, {
+    method: 'GET',
     headers: {
-      Authorization: 'Bearer abcdxyz',
+      // Authorization: 'Bearer abcdxyz',
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-    "principal": principalVal,
-    "extraPayment": extraPaymentVal,
-    "mortgageAmount": mortgageAmountVal,
-    "interestRate": interestRateVal
-    }),
+    }
   })
 
-  console.log(response.json)
+  // console.log(response.json)
 
   // const myHeaders = new Headers();
   // myHeaders.append("Content-Type", "application/json");
