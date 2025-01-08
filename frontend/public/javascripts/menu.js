@@ -31,21 +31,23 @@ function generateAmortizationReport() {
     .querySelector('#interestRate').value;
       
   console.log("Sending POST Request");
-  fetch('/generateAmortizationReport', {
+
+  fetch('http://localhost:5000/api/v1/generateAmortizationReport', {
     method: 'POST',
+    // mode: "cors",
     headers: {
-      Authorization: 'Bearer abcdxyz',
-      'Content-Type': 'application/json',
+      'Content-Type': 'text/plain',
     },
     body: JSON.stringify({
-      principal,
-      extraPayment,
-      mortgageAmount,
-      interestRate
+      "principal":principal,
+      "extraPayment":extraPayment,
+      "mortgageAmount":mortgageAmount,
+      "interestRate":interestRate
     }),
   })
+  .then(r => r.text().then(console.log));
   // .then((res) => {
   //   return res.json();
   // })
-  // .then((data) => console.log(data));
+  // .then(res => console.log(res))
 }

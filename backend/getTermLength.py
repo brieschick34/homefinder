@@ -1,4 +1,6 @@
 # import time
+from pathlib import Path
+
 def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generateReport):
     termLength = 0
     totalInterest = 0
@@ -7,7 +9,9 @@ def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generat
         fileNameArr = (str(principal), str(extraPayment), str(mortgageAmount), str(round(interestRate, 4)))
         fileName = "-".join(fileNameArr)
         print("Writing Amortization Report: " + fileName)
-        f = open("reports/amortizationSchedules/%s.txt" % fileName , "a")
+        folderName = "reports/amortizationSchedules/"
+        Path(folderName).mkdir(parents=True, exist_ok=True)
+        f = open("%s/%s.txt" % ( folderName, fileName ), "a")
         f.write("Amortization Schedule For " + str(principal) + " dollar loan.\n")
         f.write("Morgage Amount of " + str(mortgageAmount) + " at a rate of " + str(interestRate) + "\n")
         f.write("Extra Payments of " + str(extraPayment) + "\n")
