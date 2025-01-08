@@ -11,17 +11,13 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/api/v1/generateAmortizationReport', methods=['POST'])
 @cross_origin(origin='localhost',headers=['Content-Type','application/json'])
 def generateAmortizationReport():
-    print("WORKING")
-    response = "hello world"
-    return response
     # print("Start")
     # print(request.json)
-    # principal = float(request.json["principal"])
-    # print("afterp")
-    # extraPayment = float(request.json["extraPayment"])
-    # mortgageAmount = float(request.json["mortgageAmount"])
-    # interestRate = float(request.json["interestRate"])
-    # return(str(principal))
+    principal = float(request.json["principal"])
+    extraPayment = float(request.json["extraPayment"])
+    mortgageAmount = float(request.json["mortgageAmount"])
+    interestRate = (float(request.json["interestRate"]) / 12 )
+    return(getTermLength(principal, extraPayment, mortgageAmount, interestRate, True))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

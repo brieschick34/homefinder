@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const cors = require('cors')
+const axios = require('axios');
+// const cors = require('cors')
 
 // create route objectsvar index
 Router = require('./routes/index');
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(cors())
+// app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -57,8 +58,14 @@ app.use(function(err, req, res, next) {
 app.post('/generateAmortizationReport', (req, res) => {
   // Process the POST data here
   console.log(req.body); 
-  // console.log("Principal: " + req.body.principal)
-  res.status(201).send('Data received successfully');
+  axios.post("http://localhost:5000/api/v1/generateAmortizationReport", {
+      principal: req.body.principal,
+      extraPayment: req.body.extraPayment,
+      mortgageAmount: req.body.mortgageAmount,
+      interestRate: req.body.interestRate
+    })
+    .then((response) => console.log(response.data))
+    .catch((err) => console.error(err));
 });
 
 // catch 404 and forward to error handler

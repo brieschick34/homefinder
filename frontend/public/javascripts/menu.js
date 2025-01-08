@@ -16,7 +16,7 @@ function menuToggle(state) {
   }
 }
 
-async function generateAmortizationReport() {
+function generateAmortizationReport() {
   console.log("Setting Parameters");
   const principalVal = document
     .querySelector('#principal').value;
@@ -32,32 +32,46 @@ async function generateAmortizationReport() {
       
   console.log("Sending POST Request");
 
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Access-Control-Allow-Origin", "localhost");
-  
-  const raw = JSON.stringify({
+  fetch('/generateAmortizationReport', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer abcdxyz',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
     "principal": principalVal,
     "extraPayment": extraPaymentVal,
     "mortgageAmount": mortgageAmountVal,
     "interestRate": interestRateVal
-  });
+    }),
+  })
+
+  // const myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/json");
+  // myHeaders.append("Access-Control-Allow-Origin", "localhost");
   
-  const requestOptions = {
-    method: "POST",
-    mode: "cors",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow"
-  };
+  // const raw = JSON.stringify({
+  //   "principal": principalVal,
+  //   "extraPayment": extraPaymentVal,
+  //   "mortgageAmount": mortgageAmountVal,
+  //   "interestRate": interestRateVal
+  // });
   
-  try {
-    const response = await fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions);
-    const result = await response.text();
-    console.log(result)
-  } catch (error) {
-    console.error(error);
-  };
+  // const requestOptions = {
+  //   method: "POST",
+  //   mode: "cors",
+  //   headers: myHeaders,
+  //   body: raw,
+  //   redirect: "follow"
+  // };
+  
+  // try {
+  //   const response = await fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions);
+  //   const result = await response.text();
+  //   console.log(result)
+  // } catch (error) {
+  //   console.error(error);
+  // };
 
   // OLD
   // const myHeaders = new Headers();
