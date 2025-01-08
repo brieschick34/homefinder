@@ -17,7 +17,7 @@ def generateAmortizationReport():
     extraPayment = float(request.json["extraPayment"])
     mortgageAmount = float(request.json["mortgageAmount"])
     interestRate = (float(request.json["interestRate"]) / 12 )
-    return(getTermLength(principal, extraPayment, mortgageAmount, interestRate, True))
+    return(getTermLength(principal, extraPayment, mortgageAmount, interestRate, True)[2])
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

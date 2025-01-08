@@ -47,18 +47,51 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin','*');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   res.header('Access-Control-Allow-Credentials', true);
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH');
-//   next();
+// app.get('/generateAmortizationReport', (req, res) => {
+//   // Process the POST data here
+//   console.log(req.body); 
+//   const response = axios.get("http://localhost:5000/api/v1/generateAmortizationReport", {
+//       principal: req.body.principal,
+//       extraPayment: req.body.extraPayment,
+//       mortgageAmount: req.body.mortgageAmount,
+//       interestRate: req.body.interestRate
+//     })
+//     .then((response) => console.log(response.data))
+//     .catch((err) => console.error(err));
+//   const data = response.data;
+  
+//   let headers = ["Payment #", "Payment Amount", "Interest", "Principal Paid", "Remaining Balance"]
+//   let tableHTML = '<table><thead><tr>';
+  
+//   console.log("----------------------------------------------------------------------------------")
+//   console.log(response)
+//   for (const header in headers) {
+//     tableHTML += `<th>${header}</th>`;
+//   }
+//   tableHTML += '</tr></thead><tbody>';
+
+//   for (const row of data) {
+//     tableHTML += '<tr>';
+//     for (const key in row) {
+//       tableHTML += `<td>${row[key]}</td>`;
+//     }
+//     tableHTML += '</tr>';
+//   }
+
+//   tableHTML += '</tbody></table>';
+
+//   res.send(tableHTML);
+// });
+
+// // catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   next(createError(404));
 // });
 
 app.post('/generateAmortizationReport', (req, res) => {
   // Process the POST data here
   console.log(req.body); 
-  axios.post("http://localhost:5000/api/v1/generateAmortizationReport", {
+  const response = axios.post("http://localhost:5000/api/v1/generateAmortizationReport", {
       principal: req.body.principal,
       extraPayment: req.body.extraPayment,
       mortgageAmount: req.body.mortgageAmount,
@@ -66,6 +99,29 @@ app.post('/generateAmortizationReport', (req, res) => {
     })
     .then((response) => console.log(response.data))
     .catch((err) => console.error(err));
+  const data = response.data;
+  
+  let headers = ["Payment #", "Payment Amount", "Interest", "Principal Paid", "Remaining Balance"]
+  let tableHTML = '<table><thead><tr>';
+  
+  console.log("----------------------------------------------------------------------------------")
+  console.log(response)
+  for (const header in headers) {
+    tableHTML += `<th>${header}</th>`;
+  }
+  tableHTML += '</tr></thead><tbody>';
+
+  // for (const row of data) {
+  //   tableHTML += '<tr>';
+  //   for (const key in row) {
+  //     tableHTML += `<td>${row[key]}</td>`;
+  //   }
+  //   tableHTML += '</tr>';
+  // }
+
+  tableHTML += '</tbody></table>';
+
+  res.send(tableHTML);
 });
 
 // catch 404 and forward to error handler

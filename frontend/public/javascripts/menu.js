@@ -32,7 +32,7 @@ function generateAmortizationReport() {
       
   console.log("Sending POST Request");
 
-  fetch('/generateAmortizationReport', {
+  const response = fetch('/generateAmortizationReport', {
     method: 'POST',
     headers: {
       Authorization: 'Bearer abcdxyz',
@@ -45,6 +45,8 @@ function generateAmortizationReport() {
     "interestRate": interestRateVal
     }),
   })
+
+  console.log(response.json)
 
   // const myHeaders = new Headers();
   // myHeaders.append("Content-Type", "application/json");

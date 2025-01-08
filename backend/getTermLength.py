@@ -4,6 +4,11 @@ from pathlib import Path
 def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generateReport):
     termLength = 0
     totalInterest = 0
+    payment = mortgageAmount + extraPayment 
+
+    
+    initalRow = ["0", "0", "0", "0", principal]
+    rows = [initalRow]
 
     if generateReport:
         fileNameArr = (str(principal), str(extraPayment), str(mortgageAmount), str(round(interestRate, 4)))
@@ -18,12 +23,15 @@ def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generat
         f.write("---------------------------------------------------------------------------\n")
     
     while principal >= 0:
-        payment = mortgageAmount + extraPayment 
         interest = principal * interestRate 
         totalInterest = totalInterest + interest
         principalPayment =  payment - interest
         principal = principal - principalPayment
         termLength += 1
+        
+        newRow = [ termLength, payment, interest, principalPayment, principal ]
+        rows.append(newRow)
+
         if generateReport: 
             f.write("Payment: #" + str(termLength) + " | Payment: $" + str(payment) + " | Interest: $" + str(interest) + " | Principal Paid:  $" + str(principalPayment) + " || Remaining Balance: $" + str(principal) + "\n")
         # print("---------------------------------------------------------------------------")
@@ -35,6 +43,6 @@ def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generat
         # time.sleep(.25)
     if generateReport:   
         f.close()   
-    return [ termLength, totalInterest ]    
+    return [ termLength, totalInterest, rows ]    
 
 # print("TERM LENGTH: " + str(getTermLength(85000, 450, 728.7, (.0499/12))))
