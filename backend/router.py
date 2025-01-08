@@ -1,23 +1,23 @@
 from flask import Flask
 from flask import request
+from flask_cors import CORS, cross_origin
 
 from getTermLength import getTermLength
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/v1/generateAmortizationReport', methods=['POST'])
+@cross_origin(origin='localhost:5000')
 def generateAmortizationReport():
+    print("Start")
+    print(request.json)
     principal = float(request.json["principal"])
+    print("afterp")
     extraPayment = float(request.json["extraPayment"])
     mortgageAmount = float(request.json["mortgageAmount"])
     interestRate = float(request.json["interestRate"])
-    getTermLength(principal, extraPayment, mortgageAmount, interestRate, True)
-    return(request.json)
-
-# def call_function(function_name: str):
-#     function_to_call = getattr(functions, function_name)
-#     body = request.json
-#     return function_to_call(body)
+    return(str(principal))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

@@ -18,34 +18,56 @@ function menuToggle(state) {
 
 function generateAmortizationReport() {
   console.log("Setting Parameters");
-  const principal = document
+  const principalVal = document
     .querySelector('#principal').value;
 
-  const extraPayment = document
+  const extraPaymentVal = document
     .querySelector('#extraPayment').value;
       
-  const mortgageAmount = document
+  const mortgageAmountVal = document
     .querySelector('#mortgageAmount').value;
 
-  const interestRate = document
+  const interestRateVal = document
     .querySelector('#interestRate').value;
       
   console.log("Sending POST Request");
 
-  fetch('http://localhost:5000/api/v1/generateAmortizationReport', {
-    method: 'POST',
-    // mode: "cors",
-    headers: {
-      'Content-Type': 'text/plain',
-    },
-    body: JSON.stringify({
-      "principal":principal,
-      "extraPayment":extraPayment,
-      "mortgageAmount":mortgageAmount,
-      "interestRate":interestRate
-    }),
-  })
-  .then(r => r.text().then(console.log));
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  
+  const raw = JSON.stringify({
+    "principal": principalVal,
+    "extraPayment": extraPaymentVal,
+    "mortgageAmount": mortgageAmountVal,
+    "interestRate": interestRateVal
+  });
+  
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  
+  fetch("http://localhost:5000/api/v1/generateAmortizationReport", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+
+  // fetch('http://localhost:5000/api/v1/generateAmortizationReport', {
+  //   method: 'POST',
+  //   mode: "no-cors",
+  //   headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded'
+  //   },
+  //   body: JSON.stringify({
+  //     "principal": principalVal,
+  //     "extraPayment": extraPaymentVal,
+  //     "mortgageAmount": mortgageAmountVal,
+  //     "interestRate": interestRateVal
+  //   }),
+  // })
+  // .then(r => r.text().then(console.log));
   // .then((res) => {
   //   return res.json();
   // })

@@ -8,16 +8,16 @@ block mainbody
       p Fill out the follow fields to start using the Home Loan Amortization Report Tool!
       form(id="amortization")
         p Loan Principal:
-        input(type="text", id="principal", value="", placeholder="")
+        input(type="text", id="principal", value="190000", placeholder="190000")
         br
         p Extra Monthly Payment
-        input(type="text", id="extraPayment", value="", placeholder="")
+        input(type="text", id="extraPayment", value="500", placeholder="500")
         br
         p Monthly Mortgage Amount
-        input(type="text", id="mortgageAmount", value="", placeholder="")
+        input(type="text", id="mortgageAmount", value="2250", placeholder="2250")
         br
         p Interest Rate
-        input(type="text", id="interestRate", value="", placeholder="")
+        input(type="text", id="interestRate", value=".0699", placeholder=".0699")
         br 
         br
         button(type="submit" id="aSubmit" onclick="generateAmortizationReport();") Run!
