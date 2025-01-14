@@ -1,9 +1,11 @@
-insuranceRate = .01
-propertyTaxRate = .0085
-closingCostPrecent = .05
+# rebuildCost = lower house < 170k, 1% @350k .75
+# insuranceRate =  # .01
+# closingCostPrecent =# @350k 3%, 150k 5% 7500 - 12k .05
+
+propertyTaxRate = .0119 # .0085
 initalTermLength = 360
 interestRate =.0699
-pmiPrecent = .0046
+pmiPrecent = .0025 #.0046
 generateReports = False
 
 from pathlib import Path
@@ -31,11 +33,11 @@ class Configuration:
     self.totalInterest = self.termLengthResults[1]
     self.pmiTotalCost = getPMITotalCost(self.principal, pmiPrecent, houseCost, self.monthlyMortgage, extraPayment, self.monthlyRate)
     self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
-    self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal, insuranceRate) 
+    self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal) 
     self.propertyTaxExpense = getPropertyTaxMonthlyCost(self.principal, propertyTaxRate)
-    self.closingCosts = getClosingCost(self.principal, closingCostPrecent)
-    self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense + self.propertyTaxExpense + extraPayment
-    self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts
+    self.closingCosts = getClosingCost(self.principal)
+    self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense[1] + self.propertyTaxExpense + extraPayment
+    self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts[1]
     self.totalCost = self.principal + self.totalInterest  + self.upFrontCost
     self.additionalCostsOnHouse = self.totalCost - houseCost
     self.additionalCostsOnHousePercent = ((self.totalCost / self.houseCost ) - 1 )* 100 
@@ -50,8 +52,8 @@ class Configuration:
     print("  -> PMI Precent: " + str(pmiPrecent*100))
     print("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength))
     print("  -> Property Tax Precent: " + str(propertyTaxRate*100))
-    print("  -> Closing Cost Precent: " + str(closingCostPrecent*100))
-    print("  -> Home Insurance Precent: " + str(insuranceRate*100))
+    print("  -> Closing Cost Precent: " + str(self.closingCosts[0]*100))
+    print("  -> Home Insurance Precent: " + str(self.insuranceExpense[0]*100))
 
     print("Calculated Numbers: ")
     print("  -> Down Payment:: " + str(self.downPayment))
@@ -70,7 +72,7 @@ class Configuration:
     print("Up Front Costs: " + str(round(self.upFrontCost, 2)))
     print("  -> Down Payment: " + str(self.downPayment))
     print("  -> Buy Down Amount: " + str(self.buyDownAmount))
-    print("  -> Estimated Additional Closing Costs ( " + str(closingCostPrecent*100) + "% ): "  + str(self.closingCosts))
+    print("  -> Estimated Additional Closing Costs ( " + str(self.closingCosts[0]*100) + "% ): "  + str(self.closingCosts[1]))
 
     print("Total Cost: " + str(round(self.totalCost,2)))
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
@@ -90,8 +92,8 @@ class Configuration:
     f.write("  -> PMI Precent: " + str(pmiPrecent*100) + "\n")
     f.write("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength) + "\n")
     f.write("  -> Property Tax Precent: " + str(propertyTaxRate*100) + "\n")
-    f.write("  -> Closing Cost Precent: " + str(closingCostPrecent*100) + "\n")
-    f.write("  -> Home Insurance Precent: " + str(insuranceRate*100) + "\n")
+    f.write("  -> Closing Cost Precent: " + str(self.closingCosts[0]*100) + "\n")
+    f.write("  -> Home Insurance Precent: " + str( self.insuranceExpense[0]*100) + "\n")
 
     f.write("Calculated Numbers: " + "\n")
     f.write("  -> Down Payment:: " + str(self.downPayment) + "\n")
@@ -103,14 +105,14 @@ class Configuration:
     f.write("Monthly Expenses: " + str(round(self.monthlyExpense, 2)) + "\n")
     f.write("  -> Mortgage: " + str(self.monthlyMortgage) + "\n")
     f.write("  -> PMI: " + str(self.pmiMonthlyCost) + "\n")
-    f.write("  -> Insurance: " + str(self.insuranceExpense) + "\n")
+    f.write("  -> Insurance: " + str(self.insuranceExpense[1]) + "\n")
     f.write("  -> Property Tax: " + str(self.propertyTaxExpense) + "\n")
     f.write("  -> Extra Payment: " + str(self.extraPayment) + "\n")
 
     f.write("Up Front Costs: " + str(round(self.upFrontCost, 2)) + "\n")
     f.write("  -> Down Payment: " + str(self.downPayment) + "\n")
     f.write("  -> Buy Down Amount: " + str(self.buyDownAmount) + "\n")
-    f.write("  -> Estimated Additional Closing Costs ( " + str(closingCostPrecent*100) + "% ): "  + str(self.closingCosts) + "\n")
+    f.write("  -> Estimated Additional Closing Costs ( " + str(self.closingCosts[0]*100) + "% ): "  + str(self.closingCosts[1]) + "\n")
 
     f.write("Total Cost: " + str(round(self.totalCost,2)) + "\n")
     f.write("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse) + "\n")

@@ -16,11 +16,11 @@ from graphData import createRowInCSV, createGraphFromCSV, createCSVFile
 
 topProspectNumber = 0
 buggyProspectNumber = 0
-maxUpfrontCosts = [ 30000, 35000, 40000, 45000, 50000 ]
-prospectRanges = [ 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75 ]
-maxMonthlyExpense = [ 2000, 2250, 2500, 2750 ]
-houseCostRanges = [ 140000, 160000, 180000, 200000, 220000, 240000, 260000, 280000, 300000, 320000, 340000 ]
-downPaymentPrecentRanges = [ 0, .05, .1, .15, .2, .25, .3, .35 ]
+maxUpfrontCosts = [ 45000 ] # [  25000, 30000, 35000, 40000, 45000 ] 
+prospectRanges = [ 1.0, 1.1, 1.2, 1.25, 1.3 ] 
+maxMonthlyExpense = [ 2250, 2500 ]
+houseCostRanges = [ 125000 ] 
+downPaymentPrecentRanges = [ .2, .25, .3 ]
 
 def getTotalCosts(Configuration):
     global topProspectNumber
@@ -34,16 +34,20 @@ def getTotalCosts(Configuration):
                     buggyProspectNumber += 1
                     Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
                 elif Configuration.upFrontCost <= maxUpfrontCost:
-                    print("Configuration does not meet Up Front Cost Requirements.")
                     if Configuration.totalCost <= prospectLine:
-                        print("Configuration does not meet Total Cost Requirements.")
                         if Configuration.monthlyExpense <= maxMonthly:
-                            print("Configuration does not meet Monthly Requirements.")
                             topProspectNumber += 1
                             Configuration.printConfigToSTDOUT()
                             Configuration.writeConfigToFile("TopProspects", topProspectNumber, prospectRange, maxMonthly, maxUpfrontCost)
-    else:
-        print("NOT A PROSPECT. WILL NOT ADD TO FILE.")    
+                        else: 
+                            print("Configuration does not meet Monthly Requirements.")
+                            print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
+                    else:
+                        print("Configuration does not meet Total Cost Requirements.")
+                        print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
+                else: 
+                    print("Configuration does not meet Up Front Cost Requirements. " + str(Configuration.upFrontCost))
+                    print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
     return [ Configuration.number, Configuration.additionalCostsOnHouse ]
 
 # Magic
@@ -52,6 +56,7 @@ def iterateOverConfigurations():
         
     f = open("VeryTopProspects.txt", "a")
     for houseCost in houseCostRanges:
+        print("looking at house " + str(houseCost))
         minimizedCost = 1.5 * houseCost
         createCSVFile(houseCost)
         for downPaymentPrecent in downPaymentPrecentRanges:

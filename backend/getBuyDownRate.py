@@ -1,4 +1,5 @@
 def getBuyDownRateDrop(principal, buyDownAmount):
+  rateReduceBy = .00125
   # print("---------------------------------------------------------------------------------")
   # print("BuyDownAmount: " + str(buyDownAmount))
   # print("Principal: " +  str(principal))
@@ -8,7 +9,7 @@ def getBuyDownRateDrop(principal, buyDownAmount):
   points = getPrecentOfPrincipal / .01 
   # print("points: " + str(points))
   # print("rateDrop: " + str(points * .0025))
-  return points * .0025
+  return points * rateReduceBy
 
 def getBuyDownRate(principal, buyDownAmount, interestRate):
   buydownRate = interestRate - getBuyDownRateDrop(principal, buyDownAmount)
