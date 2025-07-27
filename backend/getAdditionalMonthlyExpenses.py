@@ -1,7 +1,7 @@
-def getHomeInsuranceMonthlyCost(principal):
-    principalInK = principal / 1000
-    insuranceRate = (( -0.001 * principalInK ) + 1.1 ) / 100 
-    return ( [ insuranceRate, round((( insuranceRate * principal ) / 12 ), 2) ])
+def getHomeInsuranceMonthlyCost(principal, homeOwnersInsuranceRate):
+    # principalInK = principal / 1000
+    # insuranceRate = (( -0.001 * principalInK ) + 1.1 ) / 100 
+    return ( [ homeOwnersInsuranceRate, round((( homeOwnersInsuranceRate * principal ) / 12 ), 2) ])
 
 def getPropertyTaxMonthlyCost(principal, propertyTaxRate):
     return ( round((( propertyTaxRate * principal ) / 12 ), 2))

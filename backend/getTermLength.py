@@ -4,8 +4,7 @@ from pathlib import Path
 def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generateReport):
     termLength = 0
     totalInterest = 0
-    payment = mortgageAmount + extraPayment 
-
+    payment = mortgageAmount + extraPayment       
     
     initalRow = ["0", "0", "0", "0", principal]
     rows = [initalRow]
