@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/amortization_page.dart';
+import 'pages/optimize_loan_page.dart';
 
 void main() {
   runApp(HomeLoanOptimizerApp());
@@ -33,8 +34,6 @@ class _HomePageState extends State<HomePage> {
     'Optimize Investment Property',
     'Run Tests'
   ];
-
-
 
   final List<String> topMenuItems = ['About Us', 'Contact Us'];
 
@@ -130,6 +129,7 @@ class _HomePageState extends State<HomePage> {
       return AmortizationPage(); // This now has its own controllers and logic
 
     case 'Optimize Loan':
+      return OptimizeLoanPage();
     case 'Optimize Investment Property':
     case 'Run Tests':
     case 'About Us':
