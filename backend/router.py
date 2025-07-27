@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import json
+from flask import jsonify
+
 
 from getTermLength import getTermLength
 
@@ -28,7 +30,7 @@ def generateAmortizationReport():
         extraPayment = float(request.args["extraPayment"])
         mortgageAmount = float(request.args["mortgageAmount"])
         interestRate = (float(request.args["interestRate"]) / 12 )
-        return json.dumps(getTermLength(principal, extraPayment, mortgageAmount, interestRate, False)[2])
+        return jsonify(getTermLength(principal, extraPayment, mortgageAmount, interestRate, False)[2])
     else:
         print("METHOD NOT SUPPORTED")
 

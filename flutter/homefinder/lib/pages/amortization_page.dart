@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import '../services/api_service.dart';
 
 class AmortizationPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class _AmortizationPageState extends State<AmortizationPage> {
   final TextEditingController extraPaymentController = TextEditingController();
   final TextEditingController mortgageController = TextEditingController();
   final TextEditingController interestRateController = TextEditingController();
+  List<List<dynamic>>? _reportData;
 
   @override
   void dispose() {
@@ -38,6 +40,15 @@ class _AmortizationPageState extends State<AmortizationPage> {
       );
 
       if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        // Cast each inner list dynamic -> List<dynamic>
+        final List<List<dynamic>> parsedData = jsonData
+          .map<List<dynamic>>((row) => List<dynamic>.from(row))
+          .toList();
+
+        setState(() {
+          _reportData = parsedData;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Report generated successfully!')),
         );
@@ -72,6 +83,39 @@ class _AmortizationPageState extends State<AmortizationPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDataTable() {
+    if (_reportData == null) {
+      return const SizedBox(); // Empty container if no data yet
+    }
+
+    // Define column headers:
+    final headers = [
+      'Payment Number',
+      'Payment Amount',
+      'Interest Amount',
+      'Principal',
+      'Remaining Balance'
+    ];
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: headers
+            .map((header) => DataColumn(label: Text(header, style: const TextStyle(fontWeight: FontWeight.bold))))
+            .toList(),
+        rows: _reportData!.map((row) {
+          return DataRow(
+            cells: row.map((cell) {
+              // Format cell to string
+              final text = cell.toString();
+              return DataCell(Text(text));
+            }).toList(),
+          );
+        }).toList(),
       ),
     );
   }
@@ -114,6 +158,8 @@ class _AmortizationPageState extends State<AmortizationPage> {
                 child: Text('Generate Report'),
               ),
             ),
+            const SizedBox(height: 20),
+            if (_reportData != null) Expanded(child: _buildDataTable()),
           ],
         ),
       ),
