@@ -16,38 +16,35 @@ from graphData import createRowInCSV, createGraphFromCSV, createCSVFile
 
 topProspectNumber = 0
 buggyProspectNumber = 0
-maxUpfrontCosts = [ 45000 ] # [  25000, 30000, 35000, 40000, 45000 ] 
-prospectRanges = [ 1.0, 1.1, 1.2, 1.25, 1.3 ] 
-maxMonthlyExpense = [ 2250, 2500 ]
-houseCostRanges = [ 125000 ] 
-downPaymentPrecentRanges = [ .2, .25, .3 ]
+maxUpfrontCosts = [ 40000, 4250, 45000, 47500, 50000 ] # [  25000, 30000, 35000, 40000, 45000 ] 
+prospectRanges = [ 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6 ] 
+maxMonthlyExpense = [ 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500 ]
+houseCostRanges = [ 240000, 245000, 250000, 255000, 260000, 265000, 270000  ] 
+downPaymentPrecentRanges = [ .1, .125, .15, .175, .2, .225, .25, .275, .3 ]
 
 def getTotalCosts(Configuration):
     global topProspectNumber
     global buggyProspectNumber
 
-    for maxMonthly in maxMonthlyExpense:
-        for prospectRange in prospectRanges:
-            for maxUpfrontCost in maxUpfrontCosts:   
-                prospectLine = Configuration.houseCost * prospectRange # Pull results where house cost no more then 1.5x listng value
-                if Configuration.additionalCostsOnHouse < 0:
-                    buggyProspectNumber += 1
-                    Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
-                elif Configuration.upFrontCost <= maxUpfrontCost:
-                    if Configuration.totalCost <= prospectLine:
-                        if Configuration.monthlyExpense <= maxMonthly:
-                            topProspectNumber += 1
-                            Configuration.printConfigToSTDOUT()
-                            Configuration.writeConfigToFile("TopProspects", topProspectNumber, prospectRange, maxMonthly, maxUpfrontCost)
-                        else: 
-                            print("Configuration does not meet Monthly Requirements.")
-                            print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
-                    else:
-                        print("Configuration does not meet Total Cost Requirements.")
-                        print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
-                else: 
-                    print("Configuration does not meet Up Front Cost Requirements. " + str(Configuration.upFrontCost))
+    for prospectRange in prospectRanges:
+        for maxUpfrontCost in maxUpfrontCosts:   
+            prospectLine = Configuration.houseCost * prospectRange # Pull results where house cost no more then 1.5x listng value
+            Configuration.printConfigToSTDOUT()
+            if Configuration.additionalCostsOnHouse < 0:
+                buggyProspectNumber += 1
+                Configuration.writeConfigToFile("BuggyProspects", buggyProspectNumber)
+            elif Configuration.upFrontCost <= maxUpfrontCost:
+                if Configuration.totalCost <= prospectLine:
+                    if Configuration.monthlyExpense <= Configuration.maxMonthly:
+                        topProspectNumber += 1
+                        Configuration.printConfigToSTDOUT()
+                        Configuration.writeConfigToFile("TopProspects", topProspectNumber, prospectRange, maxUpfrontCost)
+                else:
+                    print("Configuration does not meet Total Cost Requirements.")
                     print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
+            else: 
+                print("Configuration does not meet Up Front Cost Requirements. " + str(Configuration.upFrontCost))
+                print("HOUSE %s: NOT A PROSPECT. WILL NOT ADD TO FILE." % Configuration.houseCost)    
     return [ Configuration.number, Configuration.additionalCostsOnHouse ]
 
 # Magic
@@ -60,12 +57,15 @@ def iterateOverConfigurations():
         minimizedCost = 1.5 * houseCost
         createCSVFile(houseCost)
         for downPaymentPrecent in downPaymentPrecentRanges:
-            for  i in range(1, 10):
-                extraPayment = (.0005*i)*houseCost
-                for i in range(1, 10):
+            for maxMonthly in maxMonthlyExpense:
+            # for  i in range(1, 10):
+                # extraPayment = (.0005*i)*houseCost
+                for i in range(0, 10):
                     totalConfigurations += 1
                     buyDownAmount = (.01*i)*houseCost
-                    currentConfig = Configuration(totalConfigurations, houseCost, downPaymentPrecent, extraPayment, buyDownAmount)
+                    print("Craeting config")
+                    currentConfig = Configuration(totalConfigurations, houseCost, downPaymentPrecent, maxMonthly, buyDownAmount)
+                    print("Config Created")
                     createRowInCSV(currentConfig)
                     currentCost = getTotalCosts(currentConfig)
                     if currentCost[1] <= minimizedCost:

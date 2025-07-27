@@ -4,7 +4,7 @@
 
 propertyTaxRate = .0119 # .0085
 initalTermLength = 360
-interestRate =.0699
+interestRate = .07131
 pmiPrecent = .0025 #.0046
 generateReports = False
 
@@ -16,27 +16,29 @@ from getTermLength import getTermLength
 from getPMI import getMonthlyPMI, getPMITotalCost
 
 class Configuration:
-  def __init__(self, number, houseCost, downPaymentPrecent, extraPayment, buyDownAmount):
+  def __init__(self, number, houseCost, downPaymentPrecent, maxMonthly, buyDownAmount):
     self.number = number
     # self.uniqueNumber = uniqueNumber
     self.houseCost = houseCost
     self.downPaymentPrecent = downPaymentPrecent
     self.downPayment = downPaymentPrecent * houseCost 
     self.principal = houseCost - self.downPayment
-    self.extraPayment = extraPayment
-    self.buyDownAmount = buyDownAmount
     self.buyDownRate = getBuyDownRate(self.principal, buyDownAmount, interestRate)
     self.monthlyRate = self.buyDownRate / 12
     self.monthlyMortgage = getMortgageAmount(self.principal, self.monthlyRate, initalTermLength)
-    self.termLengthResults =  getTermLength(self.principal, extraPayment, self.monthlyMortgage, self.monthlyRate, generateReports)
-    self.newTermLength = self.termLengthResults[0]
-    self.totalInterest = self.termLengthResults[1]
-    self.pmiTotalCost = getPMITotalCost(self.principal, pmiPrecent, houseCost, self.monthlyMortgage, extraPayment, self.monthlyRate)
     self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
     self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal) 
     self.propertyTaxExpense = getPropertyTaxMonthlyCost(self.principal, propertyTaxRate)
+    self.monthlyRequiredExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense[1] + self.propertyTaxExpense 
+    self.maxMonthly = maxMonthly
+    self.extraPayment = ( maxMonthly - self.monthlyRequiredExpense ) if ( maxMonthly - self.monthlyRequiredExpense ) > 0 else 0
+    self.buyDownAmount = buyDownAmount
+    self.termLengthResults =  getTermLength(self.principal, self.extraPayment, self.monthlyMortgage, self.monthlyRate, generateReports)
+    self.newTermLength = self.termLengthResults[0]
+    self.totalInterest = self.termLengthResults[1]
+    self.pmiTotalCost = getPMITotalCost(self.principal, pmiPrecent, houseCost, self.monthlyMortgage, self.extraPayment, self.monthlyRate)
     self.closingCosts = getClosingCost(self.principal)
-    self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense[1] + self.propertyTaxExpense + extraPayment
+    self.monthlyExpense = self.monthlyRequiredExpense + self.extraPayment
     self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts[1]
     self.totalCost = self.principal + self.totalInterest  + self.upFrontCost
     self.additionalCostsOnHouse = self.totalCost - houseCost
@@ -78,8 +80,8 @@ class Configuration:
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
     print("Amount Paid on Top of House Cost (Precent): " + str(self.additionalCostsOnHousePercent))
 
-  def writeConfigToFile(self, filename, uniqueNumber, prospectRange, maxMonthlyExpense, maxUpfrontCost):
-    path = "reports/automated/%sKHouse/%sKMaxClosingCost/%sMaxMonthlyCost/" % ( int(self.houseCost/1000), int(maxUpfrontCost/1000), int(maxMonthlyExpense))
+  def writeConfigToFile(self, filename, uniqueNumber, prospectRange, maxUpfrontCost):
+    path = "reports/automated/%sKHouse/%sKMaxClosingCost/%sMaxMonthlyCost/" % ( int(self.houseCost/1000), int(maxUpfrontCost/1000), int(self.maxMonthly))
     Path(path).mkdir(parents=True, exist_ok=True)
     f = open("%s/%sOfTotalCost.txt" % ( path, prospectRange) , "a")
     f.write("Loan Configuration #:" + str(self.number) + "\n")

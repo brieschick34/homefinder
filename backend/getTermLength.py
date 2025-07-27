@@ -5,7 +5,6 @@ def getTermLength(principal, extraPayment, mortgageAmount, interestRate, generat
     termLength = 0
     totalInterest = 0
     payment = mortgageAmount + extraPayment 
-
     
     initalRow = ["0", "0", "0", "0", principal]
     rows = [initalRow]
