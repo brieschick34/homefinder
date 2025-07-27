@@ -5,14 +5,16 @@ from flask import jsonify
 
 
 from getTermLength import getTermLength
-
+from getOptimizedLoan import iterateOverConfigurations
 
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+## Amortization Reports ##
 @app.route('/api/v1/generateAmortizationReport', methods=['GET', 'POST'])
 @cross_origin(origin='localhost',headers=['Content-Type','application/json'])
+
 def generateAmortizationReport():
     print("MADE IT TO PYTHON!")
     if request.method == 'POST':
@@ -33,6 +35,29 @@ def generateAmortizationReport():
         return jsonify(getTermLength(principal, extraPayment, mortgageAmount, interestRate, False)[2])
     else:
         print("METHOD NOT SUPPORTED")
+
+## OptimizeLoan ##
+@app.route('/api/v1/optimizeLoan', methods=['GET'])
+@cross_origin(origin='localhost',headers=['Content-Type','application/json'])
+
+def optimizeLoan():
+    minUpFrontCost = int(request.args["minUpFrontCost"])
+    maxUpFrontCost = int(request.args["maxUpFrontCost"])
+    minimumHouseCost = int(request.args["minimumHouseCost"])
+    maximumHouseCost = int(request.args["maximumHouseCost"])
+    minMonthlyCost = int(request.args["minMonthlyCost"])
+    maxMonthlyCost = int(request.args["maxMonthlyCost"])
+    minDownPaymentCost = int(request.args["minDownPaymentCost"])
+    maxDownPaymentCost = int(request.args["maxDownPaymentCost"])
+
+    if request.method == 'POST':
+        print(str(request.method) + " METHOD NOT SUPPORTED")   
+    elif request.method == 'GET':
+        optimizedLoans = iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, maximumHouseCost, minMonthlyCost, maxMonthlyCost, minDownPaymentCost, maxDownPaymentCost)
+        # print(jsonify(optimizedLoans))
+        return jsonify(optimizedLoans)
+    else:
+        print(str(request.method) + " METHOD NOT SUPPORTED")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

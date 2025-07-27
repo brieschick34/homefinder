@@ -16,6 +16,9 @@ pmiPrecent = .001 #.0025 #.0046
 homeOwnersInsuranceRate = .0089
 generateReports = False
 
+import json
+from flask import jsonify
+
 from pathlib import Path
 from getAdditionalMonthlyExpenses import getHomeInsuranceMonthlyCost, getPropertyTaxMonthlyCost, getClosingCost
 from getBuyDownRate import getBuyDownRate
@@ -89,6 +92,50 @@ class Configuration:
     print("Total Cost: " + str(round(self.totalCost,2)))
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
     print("Amount Paid on Top of House Cost (Precent): " + str(self.additionalCostsOnHousePercent))
+
+  def createResponseObject(self):
+    loan_summary = {
+      "Loan Configuration": {
+          "Cost of House": self.houseCost,
+          "Down Payment Percent": self.downPaymentPrecent * 100,
+          "Buy Down Amount": self.buyDownAmount,
+          "Loan Interest Rate": interestRate * 100,
+          "PMI Percent": pmiPrecent * 100,
+          "Loan Term Length (Before Extra Payments)": initalTermLength,
+          "Property Tax Percent": propertyTaxRate * 100,
+          "Closing Cost Percent": self.closingCosts[0] * 100,
+          "Home Insurance Percent": self.insuranceExpense[0] * 100
+      },
+      "Calculated Numbers": {
+          "Extra Monthly Payment": self.extraPayment,
+          "Down Payment": self.downPayment,
+          "Loan Principal": self.principal,
+          "Buy Down Rate": self.buyDownRate * 100,
+          "New Term Length": self.newTermLength,
+          "Total Cost of PMI till 20 Percent Equity": self.pmiTotalCost
+      },
+      "Monthly Expenses": {
+          "Total Monthly": round(self.monthlyExpense, 2),
+          "Mortgage": self.monthlyMortgage,
+          "PMI": self.pmiMonthlyCost,
+          "Insurance": self.insuranceExpense[1],
+          "Property Tax": self.propertyTaxExpense,
+          "Extra Payment": self.extraPayment
+      },
+      "Up Front Costs": {
+          "Total Up Front": round(self.upFrontCost, 2),
+          "Down Payment": self.downPayment,
+          "Buy Down Amount": self.buyDownAmount,
+          f"Estimated Additional Closing Costs ({self.closingCosts[0]*100}%)": self.closingCosts[1]
+      },
+      "Totals": {
+          "Total Cost": round(self.totalCost, 2),
+          "Amount Paid on Top of House Cost": self.additionalCostsOnHouse,
+          "Amount Paid on Top of House Cost (Percent)": self.additionalCostsOnHousePercent
+      }
+    }
+    return loan_summary
+
 
   def writeConfigToFile(self, filename, uniqueNumber, prospectRange, maxMonthlyExpense, maxUpfrontCost):
     path = "reports/automated/%sKHouse/%sKMaxClosingCost/%sMaxMonthlyCost/" % ( int(self.houseCost/1000), int(maxUpfrontCost/1000), int(maxMonthlyExpense))

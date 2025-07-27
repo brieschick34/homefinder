@@ -40,10 +40,12 @@ def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, 
                         # print("New house found with extra cost of: " + str(currentConfig.additionalCostsOnHouse))
                         # currentConfig.printConfigToSTDOUT()
                         minimizedCost = currentConfig.additionalCostsOnHouse
-                        results[houseCost] = currentConfig
+                        results[houseCost] = currentConfig.createResponseObject()
 
-    for houseCost in HouseCosts:
-        print("--------------------" + "COST OF HOUSE: " + str(houseCost) + "--------------------")
-        results[houseCost].printConfigToSTDOUT()
+    # for houseCost in HouseCosts:
+    #     print("--------------------" + "COST OF HOUSE: " + str(houseCost) + "--------------------")
+    #     print(results[houseCost])
 
-iterateOverConfigurations(40000, 50000, 200000, 260000,1500,2500,20000,50000)
+    return results
+
+# iterateOverConfigurations(40000, 50000, 200000, 260000,1500,2500,20000,50000)
