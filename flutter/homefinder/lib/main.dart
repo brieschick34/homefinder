@@ -1,6 +1,5 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'pages/amortization_page.dart';
 
 void main() {
   runApp(HomeLoanOptimizerApp());
@@ -35,6 +34,8 @@ class _HomePageState extends State<HomePage> {
     'Run Tests'
   ];
 
+
+
   final List<String> topMenuItems = ['About Us', 'Contact Us'];
 
   void updatePage(String page) {
@@ -47,7 +48,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF9CA88D),
+        backgroundColor: Colors.grey[200],
+        elevation: 0,
         title: InkWell(
           onTap: () => updatePage('Welcome'),
           child: Text(
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              decoration: TextDecoration.none, // Optional: visual cue it's clickable
+              decoration: TextDecoration.none,
             ),
           ),
         ),
@@ -76,8 +78,8 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               children: [
                 Container(
-                  width: 220, // fixed width for menu
-                  color: Color(0xFFB0C4A0), // your muted grayish green background
+                  width: 220,
+                  color: Color(0xFF9CA88D),
                   child: ListView(
                     children: leftMenuItems.map((item) {
                       final bool selected = currentPage == item;
@@ -98,19 +100,18 @@ class _HomePageState extends State<HomePage> {
                     }).toList(),
                   ),
                 ),
+
                 Expanded(
-                  child: Center(
-                    child: Text(
-                      currentPage,
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                    ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: _buildPageContent(),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            color: Color(0xFF9CA88D),
+            color: Colors.grey[200],
             padding: EdgeInsets.all(16),
             alignment: Alignment.center,
             child: Text(
@@ -122,4 +123,56 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Widget _buildPageContent() {
+  switch (currentPage) {
+    case 'Amortization Schedule':
+      return AmortizationPage(); // This now has its own controllers and logic
+
+    case 'Optimize Loan':
+    case 'Optimize Investment Property':
+    case 'Run Tests':
+    case 'About Us':
+    case 'Contact Us':
+      return Center(
+        child: Text(
+          currentPage,
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        ),
+      );
+
+    case 'Welcome':
+    default:
+      return Center(
+        child: Text(
+          'Welcome to Home Loan Optimizer!',
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        ),
+      );
+  }
+}
+
+
+  Widget _buildLabeledTextField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Enter $label',
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+        ),
+      ],
+    );
+  }
+
 }
