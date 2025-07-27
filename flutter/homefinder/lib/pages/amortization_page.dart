@@ -122,47 +122,78 @@ class _AmortizationPageState extends State<AmortizationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Loan Amortization Report Tool"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text("Input", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 10),
-            const Text(
-              "Fill out the following fields to start using the Home Loan Amortization Report Tool!",
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            _buildLabeledInput("Loan Principal", principalController),
-            _buildLabeledInput("Extra Monthly Payment", extraPaymentController),
-            _buildLabeledInput("Monthly Mortgage Amount", mortgageController),
-            _buildLabeledInput("Interest Rate", interestRateController),
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              height: 64,
-              child: ElevatedButton(
-                onPressed: _submitAmortizationRequest,
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                child: Text('Generate Report'),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Home Loan Amortization Report Tool',
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Input',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Fill out the following fields to generate the Home Loan Amortization Report.',
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 24),
+
+          _buildLabeledTextField('Loan Principal', principalController),
+          const SizedBox(height: 16),
+          _buildLabeledTextField('Extra Monthly Payment', extraPaymentController),
+          const SizedBox(height: 16),
+          _buildLabeledTextField('Monthly Mortgage Amount', mortgageController),
+          const SizedBox(height: 16),
+          _buildLabeledTextField('Interest Rate', interestRateController),
+          const SizedBox(height: 24),
+
+          Center(
+            child: ElevatedButton(
+              onPressed: _submitAmortizationRequest,
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
+                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
+              child: const Text('Generate Report'),
             ),
-            const SizedBox(height: 20),
-            if (_reportData != null) Expanded(child: _buildDataTable()),
-          ],
-        ),
+          ),
+
+          const SizedBox(height: 32),
+
+          if (_reportData != null)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _buildDataTable(),
+            ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildLabeledTextField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+        ),
+        SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: 'Enter $label',
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+        ),
+      ],
     );
   }
 }

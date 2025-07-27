@@ -151,28 +151,4 @@ class _HomePageState extends State<HomePage> {
       );
   }
 }
-
-
-  Widget _buildLabeledTextField(String label, TextEditingController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-        ),
-        SizedBox(height: 8),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Enter $label',
-            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          ),
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
-        ),
-      ],
-    );
-  }
-
 }
