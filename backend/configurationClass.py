@@ -14,6 +14,7 @@ initalTermLength = 360
 interestRate = .07125
 pmiPrecent = .001 #.0025 #.0046
 homeOwnersInsuranceRate = .0089
+closingCostPrecent = .0475
 generateReports = False
 
 import json
@@ -27,32 +28,35 @@ from getTermLength import getTermLength
 from getPMI import getMonthlyPMI, getPMITotalCost
 
 class Configuration:
-  def __init__(self, houseCost, downPaymentPrecent,  buyDownAmount, monthlyCost):
+  def __init__(self, houseCost, upfrontCost, buyDownAmount, monthlyCost):
     # self.number = number
     # self.uniqueNumber = uniqueNumber
-    self.houseCost = houseCost
-    self.downPaymentPrecent = downPaymentPrecent
-    self.downPayment = downPaymentPrecent * houseCost 
+    self.closingCostsPrecent = getClosingCost(closingCostPrecent)
+    self.closingCosts = self.closingCostsPrecent * houseCost
+    self.downPayment = upfrontCost - ( buyDownAmount + self.closingCosts )
     self.principal = houseCost - self.downPayment
+    self.houseCost = houseCost
+    self.downPaymentPrecent = self.downPayment / houseCost
     self.buyDownAmount = buyDownAmount
     self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal, homeOwnersInsuranceRate) 
     self.propertyTaxExpense = getPropertyTaxMonthlyCost(self.principal, propertyTaxRate)
     self.buyDownRate = getBuyDownRate(( buyDownAmount / houseCost ), interestRate)
     self.monthlyRate = self.buyDownRate / 12
     self.monthlyMortgage = getMortgageAmount(self.principal, self.monthlyRate, initalTermLength)
-    self.extraPayment = monthlyCost - ( self.monthlyMortgage + self.insuranceExpense[1] + self.propertyTaxExpense )
+    self.extraPaymentNoPMI = monthlyCost - ( self.monthlyMortgage + self.insuranceExpense[1] + self.propertyTaxExpense )
     
-    if self.extraPayment <= 0:
-      self.extraPayment = 0
-      
+    if self.extraPaymentNoPMI <= 0:
+      self.extraPaymentNoPMI = 0
+
+    self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
+    self.extraPayment = round(self.extraPaymentNoPMI - self.pmiMonthlyCost, 2)
     self.termLengthResults =  getTermLength(self.principal, self.extraPayment, self.monthlyMortgage, self.monthlyRate, generateReports)
     self.newTermLength = self.termLengthResults[0]    
     self.totalInterest = self.termLengthResults[1]
     self.pmiTotalCost = getPMITotalCost(self.principal, pmiPrecent, houseCost, self.monthlyMortgage, self.extraPayment, self.monthlyRate)
-    self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
-    self.closingCosts = getClosingCost(self.principal)
+
     self.monthlyExpense = self.monthlyMortgage + self.pmiMonthlyCost + self.insuranceExpense[1] + self.propertyTaxExpense + self.extraPayment
-    self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts[1]
+    self.upFrontCost = self.downPayment + self.buyDownAmount + self.closingCosts
     self.totalCost = self.principal + self.totalInterest  + self.upFrontCost
     self.additionalCostsOnHouse = self.totalCost - houseCost
     self.additionalCostsOnHousePercent = ((self.totalCost / self.houseCost ) - 1 )* 100 
@@ -66,7 +70,7 @@ class Configuration:
     print("  -> PMI Precent: " + str(pmiPrecent*100))
     print("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength))
     print("  -> Property Tax Precent: " + str(propertyTaxRate*100))
-    print("  -> Closing Cost Precent: " + str(self.closingCosts[0]*100))
+    print("  -> Closing Cost Precent: " + str(self.closingCostsPrecent*100))
     print("  -> Home Insurance Precent: " + str(self.insuranceExpense[0]*100))
 
     print("Calculated Numbers: ")
@@ -87,7 +91,7 @@ class Configuration:
     print("Up Front Costs: " + str(round(self.upFrontCost, 2)))
     print("  -> Down Payment: " + str(self.downPayment))
     print("  -> Buy Down Amount: " + str(self.buyDownAmount))
-    print("  -> Estimated Additional Closing Costs ( " + str(self.closingCosts[0]*100) + "% ): "  + str(self.closingCosts[1]))
+    print("  -> Estimated Additional Closing Costs ( " + str(self.closingCostsPrecent*100) + "% ): "  + str(self.closingCosts))
 
     print("Total Cost: " + str(round(self.totalCost,2)))
     print("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse))
@@ -103,7 +107,7 @@ class Configuration:
           "PMI Percent": pmiPrecent * 100,
           "Loan Term Length (Before Extra Payments)": initalTermLength,
           "Property Tax Percent": propertyTaxRate * 100,
-          "Closing Cost Percent": self.closingCosts[0] * 100,
+          "Closing Cost Percent": self.closingCostsPrecent * 100,
           "Home Insurance Percent": self.insuranceExpense[0] * 100
       },
       "Calculated Numbers": {
@@ -126,7 +130,7 @@ class Configuration:
           "Total Up Front": round(self.upFrontCost, 2),
           "Down Payment": self.downPayment,
           "Buy Down Amount": self.buyDownAmount,
-          f"Estimated Additional Closing Costs ({self.closingCosts[0]*100}%)": self.closingCosts[1]
+          f"Estimated Additional Closing Costs ({self.closingCostsPrecent*100}%)": self.closingCosts
       },
       "Totals": {
           "Total Cost": round(self.totalCost, 2),
@@ -151,7 +155,7 @@ class Configuration:
     f.write("  -> PMI Precent: " + str(pmiPrecent*100) + "\n")
     f.write("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength) + "\n")
     f.write("  -> Property Tax Precent: " + str(propertyTaxRate*100) + "\n")
-    f.write("  -> Closing Cost Precent: " + str(self.closingCosts[0]*100) + "\n")
+    f.write("  -> Closing Cost Precent: " + str(self.closingCostsPrecent*100) + "\n")
     f.write("  -> Home Insurance Precent: " + str( self.insuranceExpense[0]*100) + "\n")
 
     f.write("Calculated Numbers: " + "\n")
@@ -171,7 +175,7 @@ class Configuration:
     f.write("Up Front Costs: " + str(round(self.upFrontCost, 2)) + "\n")
     f.write("  -> Down Payment: " + str(self.downPayment) + "\n")
     f.write("  -> Buy Down Amount: " + str(self.buyDownAmount) + "\n")
-    f.write("  -> Estimated Additional Closing Costs ( " + str(self.closingCosts[0]*100) + "% ): "  + str(self.closingCosts[1]) + "\n")
+    f.write("  -> Estimated Additional Closing Costs ( " + str(self.closingCostsPrecent*100) + "% ): "  + str(self.closingCosts) + "\n")
 
     f.write("Total Cost: " + str(round(self.totalCost,2)) + "\n")
     f.write("Amount Paid on Top of House Cost: " + str(self.additionalCostsOnHouse) + "\n")

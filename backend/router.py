@@ -47,13 +47,11 @@ def optimizeLoan():
     maximumHouseCost = int(request.args["maximumHouseCost"])
     minMonthlyCost = int(request.args["minMonthlyCost"])
     maxMonthlyCost = int(request.args["maxMonthlyCost"])
-    minDownPaymentCost = int(request.args["minDownPaymentCost"])
-    maxDownPaymentCost = int(request.args["maxDownPaymentCost"])
 
     if request.method == 'POST':
         print(str(request.method) + " METHOD NOT SUPPORTED")   
     elif request.method == 'GET':
-        optimizedLoans = iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, maximumHouseCost, minMonthlyCost, maxMonthlyCost, minDownPaymentCost, maxDownPaymentCost)
+        optimizedLoans = iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, maximumHouseCost, minMonthlyCost, maxMonthlyCost)
         # print(jsonify(optimizedLoans))
         return jsonify(optimizedLoans)
     else:

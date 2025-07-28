@@ -19,13 +19,11 @@ from configurationClass import Configuration
 upFrontCostInterval = 1000
 houseCostInterval = 5000
 monthlyCostInterval = 100
-downPaymentInterval = 1000
 
-def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, maximumHouseCost, minMonthlyCost, maxMonthlyCost, minDownPaymentCost, maxDownPaymentCost):
+def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, maximumHouseCost, minMonthlyCost, maxMonthlyCost):
     upFrontCosts = list(range(minUpFrontCost, maxUpFrontCost + 1, upFrontCostInterval))
     HouseCosts = list(range(minimumHouseCost, maximumHouseCost + 1, houseCostInterval))
     monthlyCosts = list(range(minMonthlyCost, maxMonthlyCost + 1, monthlyCostInterval))
-    downPayments = list(range(minDownPaymentCost, maxDownPaymentCost + 1, downPaymentInterval))
 
     results = {}
     stdOUT = {}
@@ -33,11 +31,11 @@ def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, 
     for houseCost in HouseCosts:
         minimizedCost = 3 * houseCost
         print("looking at house " + str(houseCost))
-        for downPayment in downPayments:
+        for upFrontCost in upFrontCosts:
             for buyDownRate in range(0, 1):
                 for monthlyCost in monthlyCosts:
                     buyDownAmount = (.01*buyDownRate)*houseCost
-                    currentConfig = Configuration(houseCost, downPayment/houseCost, buyDownAmount, monthlyCost)
+                    currentConfig = Configuration(houseCost, upFrontCost, buyDownAmount, monthlyCost)
                     if currentConfig.additionalCostsOnHouse <= minimizedCost:
                         # print("New house found with extra cost of: " + str(currentConfig.additionalCostsOnHouse))
                         # currentConfig.printConfigToSTDOUT()
@@ -51,4 +49,4 @@ def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, 
 
     return results
 
-iterateOverConfigurations(40000, 50000, 240000, 270000,1500,2500,20000,50000)
+# iterateOverConfigurations(40000, 50000, 240000, 270000,1500,2500,20000,50000)

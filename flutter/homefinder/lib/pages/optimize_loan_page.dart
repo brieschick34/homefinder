@@ -21,8 +21,6 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
   final TextEditingController maxHouseCostController = TextEditingController();
   final TextEditingController minMonthlyCostController = TextEditingController();
   final TextEditingController maxMonthlyCostController = TextEditingController();
-  final TextEditingController minDownPaymentController = TextEditingController();
-  final TextEditingController maxDownPaymentController = TextEditingController();
 
   @override
   void dispose() {
@@ -32,8 +30,6 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
     maxHouseCostController.dispose();
     minMonthlyCostController.dispose();
     maxMonthlyCostController.dispose();
-    minDownPaymentController.dispose();
-    maxDownPaymentController.dispose();
     super.dispose();
   }
 
@@ -76,8 +72,6 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
       'maximumHouseCost': maxHouseCostController.text,
       'minMonthlyCost': minMonthlyCostController.text,
       'maxMonthlyCost': maxMonthlyCostController.text,
-      'minDownPaymentCost': minDownPaymentController.text,
-      'maxDownPaymentCost': maxDownPaymentController.text,
     });
 
     try {
@@ -109,7 +103,6 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
             buildInputRow("Minimum Up Front Cost", minUpfrontCostController, "Maximum Up Front Cost", maxUpfrontCostController),
             buildInputRow("Minimum House Cost", minHouseCostController, "Maximum House Cost", maxHouseCostController),
             buildInputRow("Minimum Monthly Cost", minMonthlyCostController, "Maximum Monthly Cost", maxMonthlyCostController),
-            buildInputRow("Minimum Down Payment", minDownPaymentController, "Maximum Down Payment", maxDownPaymentController),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _submitRequest,
