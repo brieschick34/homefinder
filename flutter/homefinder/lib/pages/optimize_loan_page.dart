@@ -4,7 +4,6 @@ import 'dart:convert';
 
 class OptimizeLoanPage extends StatefulWidget {
   // final Map<String, dynamic> loanResults;
-
   const OptimizeLoanPage({super.key});
 
   @override
@@ -13,6 +12,7 @@ class OptimizeLoanPage extends StatefulWidget {
 
 class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
   final JsonEncoder prettyEncoder = JsonEncoder.withIndent('  ');
+  Map<String, dynamic>? loanResults;
 
   // Define all controllers
   final TextEditingController minUpfrontCostController = TextEditingController();
@@ -84,7 +84,9 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         print("RESPONSE: ${response.body}");
-        final Map<String, dynamic> results = jsonDecode(response.body);
+        setState(() {
+          loanResults = jsonDecode(response.body);
+        });
       } else {
         print("ERROR: ${response.statusCode} - ${response.body}");
       }
@@ -102,6 +104,7 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildInputRow("Minimum Up Front Cost", minUpfrontCostController, "Maximum Up Front Cost", maxUpfrontCostController),
             buildInputRow("Minimum House Cost", minHouseCostController, "Maximum House Cost", maxHouseCostController),
@@ -116,6 +119,41 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
               ),
               child: const Text("Submit"),
             ),
+            const SizedBox(height: 30),
+            if (loanResults != null) ...[
+              const Divider(),
+              const SizedBox(height: 16),
+              Text(
+                'Optimized Loan Results',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: loanResults!.length,
+                itemBuilder: (context, index) {
+                  final entry = loanResults!.entries.elementAt(index);
+                  final key = entry.key;
+                  final value = entry.value;
+
+                  return ExpansionTile(
+                    title: Text(
+                      key,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          const JsonEncoder.withIndent('  ').convert(value),
+                          style: const TextStyle(fontFamily: 'monospace'),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
           ],
         ),
       ),

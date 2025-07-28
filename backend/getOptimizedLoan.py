@@ -26,7 +26,9 @@ def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, 
     HouseCosts = list(range(minimumHouseCost, maximumHouseCost + 1, houseCostInterval))
     monthlyCosts = list(range(minMonthlyCost, maxMonthlyCost + 1, monthlyCostInterval))
     downPayments = list(range(minDownPaymentCost, maxDownPaymentCost + 1, downPaymentInterval))
+
     results = {}
+    stdOUT = {}
 
     for houseCost in HouseCosts:
         minimizedCost = 3 * houseCost
@@ -41,11 +43,12 @@ def iterateOverConfigurations(minUpFrontCost, maxUpFrontCost, minimumHouseCost, 
                         # currentConfig.printConfigToSTDOUT()
                         minimizedCost = currentConfig.additionalCostsOnHouse
                         results[houseCost] = currentConfig.createResponseObject()
+                        stdOUT[houseCost] = currentConfig
 
-    # for houseCost in HouseCosts:
-    #     print("--------------------" + "COST OF HOUSE: " + str(houseCost) + "--------------------")
-    #     print(results[houseCost])
+    for houseCost in HouseCosts:
+        print("--------------------" + "COST OF HOUSE: " + str(houseCost) + "--------------------")
+        stdOUT[houseCost].printConfigToSTDOUT()
 
     return results
 
-# iterateOverConfigurations(40000, 50000, 200000, 260000,1500,2500,20000,50000)
+iterateOverConfigurations(40000, 50000, 240000, 270000,1500,2500,20000,50000)
