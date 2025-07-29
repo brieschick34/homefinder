@@ -149,6 +149,6 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
       );
+    }
   }
-}
 }

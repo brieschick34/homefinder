@@ -11,7 +11,7 @@
 
 propertyTaxRate = .0129 #.0119 # .0085
 initalTermLength = 360
-interestRate = .07125
+# interestRate = .06875 #.07125
 pmiPrecent = .001 #.0025 #.0046
 homeOwnersInsuranceRate = .0089
 closingCostPrecent = .0475
@@ -22,25 +22,28 @@ from flask import jsonify
 
 from pathlib import Path
 from getAdditionalMonthlyExpenses import getHomeInsuranceMonthlyCost, getPropertyTaxMonthlyCost, getClosingCost
-from getBuyDownRate import getBuyDownRate
+from getBuyDownRate import getBuyDownRate, getBuyDownCost
 from getMortgageAmount import getMortgageAmount
 from getTermLength import getTermLength
 from getPMI import getMonthlyPMI, getPMITotalCost
 
 class Configuration:
-  def __init__(self, houseCost, upfrontCost, buyDownAmount, monthlyCost):
+  def __init__(self, houseCost, upfrontCost, buyDownPts, monthlyCost, banker):
     # self.number = number
     # self.uniqueNumber = uniqueNumber
+    self.banker_name = banker
     self.closingCostsPrecent = getClosingCost(closingCostPrecent)
     self.closingCosts = self.closingCostsPrecent * houseCost
-    self.downPayment = upfrontCost - ( buyDownAmount + self.closingCosts )
+    self.buyDownAmount = getBuyDownCost(buyDownPts, banker, houseCost)
+    self.downPayment = upfrontCost - ( self.buyDownAmount + self.closingCosts )
+    self.buyDownPts = buyDownPts
     self.principal = houseCost - self.downPayment
     self.houseCost = houseCost
+    self.interestRate = getBuyDownRate(0, banker)
     self.downPaymentPrecent = self.downPayment / houseCost
-    self.buyDownAmount = buyDownAmount
     self.insuranceExpense = getHomeInsuranceMonthlyCost(self.principal, homeOwnersInsuranceRate) 
     self.propertyTaxExpense = getPropertyTaxMonthlyCost(self.principal, propertyTaxRate)
-    self.buyDownRate = getBuyDownRate(( buyDownAmount / houseCost ), interestRate)
+    self.buyDownRate = getBuyDownRate(buyDownPts, banker)
     self.monthlyRate = self.buyDownRate / 12
     self.monthlyMortgage = getMortgageAmount(self.principal, self.monthlyRate, initalTermLength)
     self.extraPaymentNoPMI = monthlyCost - ( self.monthlyMortgage + self.insuranceExpense[1] + self.propertyTaxExpense )
@@ -50,6 +53,10 @@ class Configuration:
 
     self.pmiMonthlyCost = getMonthlyPMI(self.principal, pmiPrecent) 
     self.extraPayment = round(self.extraPaymentNoPMI - self.pmiMonthlyCost, 2)
+
+    if self.extraPayment <= 0:
+      self.extraPayment = 0
+
     self.termLengthResults =  getTermLength(self.principal, self.extraPayment, self.monthlyMortgage, self.monthlyRate, generateReports)
     self.newTermLength = self.termLengthResults[0]    
     self.totalInterest = self.termLengthResults[1]
@@ -66,12 +73,14 @@ class Configuration:
     print("  -> Cost of House: " + str(self.houseCost))
     print("  -> Down Payment Precent: " + str(self.downPaymentPrecent*100))
     print("  -> Buy Down Amount: " + str(self.buyDownAmount))
-    print("  -> Loan Interest Rate: " + str(interestRate*100))
+    print("  -> Loan Interest Rate: " + str(self.interestRate*100))
     print("  -> PMI Precent: " + str(pmiPrecent*100))
     print("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength))
     print("  -> Property Tax Precent: " + str(propertyTaxRate*100))
     print("  -> Closing Cost Precent: " + str(self.closingCostsPrecent*100))
     print("  -> Home Insurance Precent: " + str(self.insuranceExpense[0]*100))
+    print("  -> Banker Name: " + str(self.banker_name))
+    print("  -> Buy Down \"Points\": " + str(self.buyDownPts))
 
     print("Calculated Numbers: ")
     print("  -> Extra Monthly Payment: " + str(self.extraPayment))
@@ -103,12 +112,15 @@ class Configuration:
           "Cost of House": self.houseCost,
           "Down Payment Percent": self.downPaymentPrecent * 100,
           "Buy Down Amount": self.buyDownAmount,
-          "Loan Interest Rate": interestRate * 100,
+          "Loan Interest Rate": self.interestRate*100,
           "PMI Percent": pmiPrecent * 100,
           "Loan Term Length (Before Extra Payments)": initalTermLength,
           "Property Tax Percent": propertyTaxRate * 100,
           "Closing Cost Percent": self.closingCostsPrecent * 100,
-          "Home Insurance Percent": self.insuranceExpense[0] * 100
+          "Home Insurance Percent": self.insuranceExpense[0] * 100,
+          "Banker Name": self.banker_name,
+          "Buy Down Points": self.buyDownPts
+
       },
       "Calculated Numbers": {
           "Extra Monthly Payment": self.extraPayment,
@@ -151,7 +163,7 @@ class Configuration:
     f.write("  -> Down Payment Precent: " + str(self.downPaymentPrecent*100) + "\n")
     f.write("  -> Extra Monthly Payment: " + str(self.extraPayment) + "\n")
     f.write("  -> Buy Down Amount: " + str(self.buyDownAmount) + "\n")
-    f.write("  -> Loan Interest Rate: " + str(interestRate*100) + "\n")
+    f.write("  -> Loan Interest Rate: " + str(self.interestRate*100) + "\n")
     f.write("  -> PMI Precent: " + str(pmiPrecent*100) + "\n")
     f.write("  -> Loan Term Length (Before Extra Payments): " + str(initalTermLength) + "\n")
     f.write("  -> Property Tax Precent: " + str(propertyTaxRate*100) + "\n")

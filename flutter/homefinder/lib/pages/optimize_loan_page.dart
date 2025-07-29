@@ -98,55 +98,79 @@ class _OptimizeLoanPageState extends State<OptimizeLoanPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            buildInputRow("Minimum Up Front Cost", minUpfrontCostController, "Maximum Up Front Cost", maxUpfrontCostController),
-            buildInputRow("Minimum House Cost", minHouseCostController, "Maximum House Cost", maxHouseCostController),
-            buildInputRow("Minimum Monthly Cost", minMonthlyCostController, "Maximum Monthly Cost", maxMonthlyCostController),
+            buildInputRow("Minimum Up Front Cost", minUpfrontCostController,
+                "Maximum Up Front Cost", maxUpfrontCostController),
+            buildInputRow("Minimum House Cost", minHouseCostController,
+                "Maximum House Cost", maxHouseCostController),
+            buildInputRow("Minimum Monthly Cost", minMonthlyCostController,
+                "Maximum Monthly Cost", maxMonthlyCostController),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _submitRequest,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               child: const Text("Submit"),
             ),
-            const SizedBox(height: 30),
-            if (loanResults != null) ...[
-              const Divider(),
-              const SizedBox(height: 16),
-              Text(
-                'Optimized Loan Results',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              ListView.builder(
+            const SizedBox(height: 20),
+
+            // Results section
+            if (loanResults != null && loanResults!.isNotEmpty)
+              ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: loanResults!.length,
-                itemBuilder: (context, index) {
-                  final entry = loanResults!.entries.elementAt(index);
-                  final key = entry.key;
-                  final value = entry.value;
+                children: loanResults!.entries.map((houseEntry) {
+                  final houseCost = houseEntry.key;
+                  final upFrontMap = houseEntry.value as Map;
 
-                  return ExpansionTile(
-                    title: Text(
-                      key,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                  return Container(
+                    margin: const EdgeInsets.only(left: 0),
+                    child: ExpansionTile(
+                      title: Text("House Cost: \$${houseCost}"),
+                      children: upFrontMap.entries.map<Widget>((upFrontEntry) {
+                        final upFrontCost = upFrontEntry.key;
+                        final monthlyMap = upFrontEntry.value as Map;
+
+                        return Container(
+                          margin: const EdgeInsets.only(left: 32),
+                          child: ExpansionTile(
+                            title: Text("  -> Up Front Cost: \$${upFrontCost}"),
+                            children:
+                                monthlyMap.entries.map<Widget>((monthlyEntry) {
+                              final monthlyCost = monthlyEntry.key;
+                              final value = monthlyEntry.value;
+
+                              return Container(
+                                margin: const EdgeInsets.only(left: 64),
+                                child: ExpansionTile(
+                                  title: Text(
+                                      "    -> Monthly Cost: \$${monthlyCost}"),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        const JsonEncoder.withIndent('  ')
+                                            .convert(value),
+                                        style: const TextStyle(
+                                            fontFamily: 'monospace'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          const JsonEncoder.withIndent('  ').convert(value),
-                          style: const TextStyle(fontFamily: 'monospace'),
-                        ),
-                      ),
-                    ],
                   );
-                },
+                }).toList(),
               ),
-            ],
           ],
         ),
       ),
