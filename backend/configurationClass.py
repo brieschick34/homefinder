@@ -16,6 +16,7 @@ pmiPrecent = .001 #.0025 #.0046
 homeOwnersInsuranceRate = .0089
 closingCostPrecent = .0475
 generateReports = False
+closingCosts = 4840
 
 import json
 from flask import jsonify
@@ -33,7 +34,7 @@ class Configuration:
     # self.uniqueNumber = uniqueNumber
     self.banker_name = banker
     self.closingCostsPrecent = getClosingCost(closingCostPrecent)
-    self.closingCosts = self.closingCostsPrecent * houseCost
+    self.closingCosts = closingCosts #self.closingCostsPrecent * houseCost
     self.buyDownAmount = getBuyDownCost(buyDownPts, banker, houseCost)
     self.downPayment = upfrontCost - ( self.buyDownAmount + self.closingCosts )
     self.buyDownPts = buyDownPts

@@ -29,6 +29,13 @@ rate_map["NEO"] = {
   3: 6.5
 }
 
+rate_map["PENFED"] = { 
+  0: 7.125,
+  1: 6.875,
+  2: 6.625,
+  3: 6.5
+}
+
 cost_map["Gomez"] = {
   0: 0,
   1: 1600,
@@ -42,6 +49,13 @@ cost_map["NEO"] = {
   2: 3984,
   3: 6109
 }
+cost_map["PENFED"] = {
+  0: 0,
+  1: 2125,
+  2: 3984,
+  3: 6109
+}
+
 
 def getBuyDownCost(points, banker_name, houseCost):
   pts = round(points)
